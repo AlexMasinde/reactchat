@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
+import { auth } from "../../firebase";
+
 import { useAuth } from "../../contexts/AuthContext";
 
 import { validateLogin } from "../../utils/validate";
@@ -12,9 +14,10 @@ import emailicon from "../../icons/emailicon.svg";
 import passwordicon from "../../icons/passwordicon.svg";
 
 import LoginStyles from "./Login.module.css";
+import WithGoogle from "../WithGoogle/WithGoogle";
 
 export default function Login() {
-  const { userLogin } = useAuth();
+  const { userLogin, withGoogle } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -64,6 +67,24 @@ export default function Login() {
     }
   }
 
+  async function handleGoogle() {
+    if (loading) {
+      return;
+    }
+    try {
+      setLoading(true);
+      await withGoogle();
+      await auth.currentUser.updateProfile({
+        photoURL: process.env.REACT_APP_PLACEHOLDER,
+      });
+      setLoading(false);
+      history.push("/");
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
+  }
+
   return (
     <div className={LoginStyles.container}>
       <div className={LoginStyles.formcontainer}>
@@ -91,6 +112,9 @@ export default function Login() {
 
           <Button type="submit" loading={loading} text="Login" />
         </form>
+        <div onClick={() => handleGoogle()} className={LoginStyles.google}>
+          <WithGoogle text="Sign in with Google" loading={loading} />
+        </div>
         <div>
           <p className={LoginStyles.login}>
             Don't have an account? &nbsp;

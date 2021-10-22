@@ -11,6 +11,7 @@ export default function Dashboard() {
 
   return (
     <div>
+      {console.log(currentUser)}
       <p>Welcome {currentUser.email}</p>
       <button onClick={() => handleSignOut()}>Sign Out</button>
     </div>

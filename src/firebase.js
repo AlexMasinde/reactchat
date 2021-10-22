@@ -24,4 +24,4 @@ const database = {
   timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
 };
 
-export { auth, database, storage };
+export { auth, database, storage, firebase };

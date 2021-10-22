@@ -14,9 +14,10 @@ import Input from "../Input/Input";
 import Button from "../Button/Button";
 
 import SignupStyles from "./Signup.module.css";
+import WithGoogle from "../WithGoogle/WithGoogle";
 
 export default function Singup() {
-  const { userSignup, currentUser } = useAuth();
+  const { userSignup, withGoogle } = useAuth();
   const history = useHistory();
 
   const [userDetails, setUserDetails] = useState({
@@ -91,18 +92,30 @@ export default function Singup() {
         const fileRef = storage.ref(filePath);
         const uploadTask = await fileRef.put(file);
         const profileUrl = await uploadTask.ref.getDownloadURL();
-        console.log(currentUser);
         const user = auth.currentUser;
         await user.updateProfile({ photoUrl: profileUrl });
-      } else {
-        const user = auth.currentUser;
-        user.updateProfile({ photoURL: process.env.REACT_APP_PLACEHOLDER });
       }
+
       setLoading(false);
       history.push("/");
     } catch (err) {
       if (err.code === "auth/email-already-in-use")
         setErrors({ auth: err.message });
+      console.log(err);
+      setLoading(false);
+    }
+  }
+
+  async function handleGoogle() {
+    if (loading) {
+      return;
+    }
+    try {
+      setLoading(true);
+      await withGoogle();
+      setLoading(false);
+      history.push("/");
+    } catch (err) {
       console.log(err);
       setLoading(false);
     }
@@ -149,6 +162,9 @@ export default function Singup() {
           </div>
           <Button type="submit" loading={loading} text="Signup" />
         </form>
+        <div onClick={() => handleGoogle()} className={SignupStyles.google}>
+          <WithGoogle text="Sign in with Google" loading={loading} />
+        </div>
         <div>
           <p className={SignupStyles.login}>
             Don't have an account? &nbsp;

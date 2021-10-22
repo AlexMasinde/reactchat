@@ -78,3 +78,11 @@ form > p {
 .login > a:visited {
   color: rgb(159, 109, 207);
 }
+
+.google {
+  margin-top: 1.4em;
+}
+
+.google:hover {
+  cursor: pointer;
+}
