@@ -1,0 +1,19 @@
+button {
+  background-color: transparent;
+  text-align: center;
+  border-radius: 1rem;
+  font-size: 2rem;
+  line-height: 2.4rem;
+  border: 1px solid #000000;
+  width: 100%;
+  padding: 1.8rem 0;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.loading {
+  border: 1px solid rgba(28, 28, 28, 0.1);
+  color: rgba(28, 28, 28, 0.1);
+}
