@@ -25,6 +25,10 @@ export function AuthProvider({ children }) {
     return auth.signInWithPopup(provider);
   }
 
+  function deleteAccount() {
+    return auth.currentUser.delete();
+  }
+
   function userSignout() {
     return auth.signOut();
   }
@@ -45,6 +49,7 @@ export function AuthProvider({ children }) {
     userSignout,
     userLogin,
     withGoogle,
+    deleteAccount,
   };
 
   return (

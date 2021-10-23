@@ -12,9 +12,9 @@ import usericon from "../../icons/usericon.svg";
 
 import Input from "../Input/Input";
 import Button from "../Button/Button";
+import WithGoogle from "../WithGoogle/WithGoogle";
 
 import SignupStyles from "./Signup.module.css";
-import WithGoogle from "../WithGoogle/WithGoogle";
 
 export default function Singup() {
   const { userSignup, withGoogle } = useAuth();
@@ -92,8 +92,12 @@ export default function Singup() {
         const fileRef = storage.ref(filePath);
         const uploadTask = await fileRef.put(file);
         const profileUrl = await uploadTask.ref.getDownloadURL();
-        const user = auth.currentUser;
-        await user.updateProfile({ photoUrl: profileUrl });
+        await auth.currentUser.updateProfile({
+          photoUrl: profileUrl,
+          displayName: username,
+        });
+      } else {
+        await auth.currentUser.updateProfile({ displayName: username });
       }
 
       setLoading(false);
