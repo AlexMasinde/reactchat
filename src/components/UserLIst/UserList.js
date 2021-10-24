@@ -35,7 +35,7 @@ export default function UserList() {
     }
     getUsers();
     console.log("hoook ran");
-  }, []);
+  }, [currentUser]);
 
   return (
     <div className={UserListStyles.container}>

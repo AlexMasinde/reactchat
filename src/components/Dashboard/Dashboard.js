@@ -7,6 +7,7 @@ import UserList from "../UserLIst/UserList";
 import addicon from "../../icons/add.png";
 
 import DashboardStyles from "./Dashboard.module.css";
+import ChatInput from "../ChatInput/ChatInput";
 
 export default function Dashboard() {
   const { currentUser, userSignout } = useAuth();
@@ -21,6 +22,7 @@ export default function Dashboard() {
         <img src={addicon} alt="new chat" />
       </div>
       <UserList />
+      <ChatInput />
     </div>
   );
 }
