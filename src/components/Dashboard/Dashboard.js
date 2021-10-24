@@ -1,23 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
 import { useAuth } from "../../contexts/AuthContext";
+
+import UserList from "../UserLIst/UserList";
 
 export default function Dashboard() {
   const { currentUser, userSignout } = useAuth();
-
-  function handleSignOut() {
-    userSignout();
+  async function handleSignout() {
+    await userSignout();
   }
-
   return (
     <div>
-      {console.log(currentUser)}
-      <p>Welcome {currentUser.email}</p>
-      <Link to={`/userprofile/:${currentUser.uid}`}>
-        <p>View User profile</p>
-      </Link>
-      <p onClick={() => handleSignOut()}>Signout</p>
+      <UserList />
+      <img src={currentUser.photoURL} alt="The user profile" />
+      <p>{currentUser.displayName}</p>
+      <p onClick={() => handleSignout()}>Logout</p>
     </div>
   );
 }

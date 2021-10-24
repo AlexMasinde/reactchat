@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import { useAuth } from "../../contexts/AuthContext";
-import { auth, storage } from "../../firebase";
+import { auth, storage, users } from "../../firebase";
 
 import { validateSingup } from "../../utils/validate";
 
@@ -15,6 +15,7 @@ import Button from "../Button/Button";
 import WithGoogle from "../WithGoogle/WithGoogle";
 
 import SignupStyles from "./Signup.module.css";
+import googleSignin from "../../utils/googleSignin";
 
 export default function Singup() {
   const { userSignup, withGoogle } = useAuth();
@@ -92,12 +93,25 @@ export default function Singup() {
         const fileRef = storage.ref(filePath);
         const uploadTask = await fileRef.put(file);
         const profileUrl = await uploadTask.ref.getDownloadURL();
-        await auth.currentUser.updateProfile({
+        const currentUser = auth.currentUser;
+        await currentUser.updateProfile({
           photoUrl: profileUrl,
           displayName: username,
         });
+        await users.child(currentUser.uid).set({
+          username: username,
+          photo: profileUrl,
+          email: email,
+          presence: "online",
+        });
       } else {
         await auth.currentUser.updateProfile({ displayName: username });
+        const currentUser = auth.currentUser;
+        await users.child(currentUser.uid).set({
+          username: username,
+          email: email,
+          presence: "online",
+        });
       }
 
       setLoading(false);
@@ -116,7 +130,7 @@ export default function Singup() {
     }
     try {
       setLoading(true);
-      await withGoogle();
+      await googleSignin(withGoogle);
       setLoading(false);
       history.push("/");
     } catch (err) {

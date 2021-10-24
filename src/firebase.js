@@ -17,7 +17,9 @@ const app = firebase.initializeApp(firebaseConfig);
 const auth = app.auth();
 const storage = app.storage();
 const firestore = app.firestore();
-const realDb = app.database();
+const realtimeDb = app.database();
+const users = realtimeDb.ref("users/");
+
 const database = {
   messages: firestore.collection("messages"),
   formatDocument: (doc) => {
@@ -26,4 +28,4 @@ const database = {
   timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
 };
 
-export { auth, database, storage, realDb, firebase };
+export { auth, database, storage, users, firebase };

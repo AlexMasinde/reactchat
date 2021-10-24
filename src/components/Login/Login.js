@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import { auth } from "../../firebase";
-
 import { useAuth } from "../../contexts/AuthContext";
 
 import { validateLogin } from "../../utils/validate";
@@ -15,6 +13,7 @@ import passwordicon from "../../icons/passwordicon.svg";
 
 import LoginStyles from "./Login.module.css";
 import WithGoogle from "../WithGoogle/WithGoogle";
+import googleSignin from "../../utils/googleSignin";
 
 export default function Login() {
   const { userLogin, withGoogle } = useAuth();
@@ -73,10 +72,7 @@ export default function Login() {
     }
     try {
       setLoading(true);
-      await withGoogle();
-      await auth.currentUser.updateProfile({
-        photoURL: process.env.REACT_APP_PLACEHOLDER,
-      });
+      await googleSignin(withGoogle);
       setLoading(false);
       history.push("/");
     } catch (err) {
