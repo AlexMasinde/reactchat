@@ -11,9 +11,6 @@ export default function Dashboard() {
   return (
     <div>
       <UserList />
-      <img src={currentUser.photoURL} alt="The user profile" />
-      <p>{currentUser.displayName}</p>
-      <p onClick={() => handleSignout()}>Logout</p>
     </div>
   );
 }

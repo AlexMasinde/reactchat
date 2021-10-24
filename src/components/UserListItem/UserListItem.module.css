@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+}
+
+.image > img {
+  border-radius: 1.2em;
+  height: 4.8em;
+  width: 4.8em;
+}
+.details {
+  margin-left: 1.6em;
+}
+.username {
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 150%;
+}
+
+.presence {
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 150%;
+  background-color: #c6f6d5;
+  color: #38a169;
+  border-radius: 0.5rem;
+  padding: 0.2rem 1rem;
+  width: fit-content;
+}
