@@ -1,5 +1,10 @@
 .container {
   display: flex;
+  margin-bottom: 2em;
+}
+
+.container:hover {
+  cursor: pointer;
 }
 
 .image > img {
@@ -25,4 +30,5 @@
   border-radius: 0.5rem;
   padding: 0.2rem 1rem;
   width: fit-content;
+  margin-top: 0.4rem;
 }

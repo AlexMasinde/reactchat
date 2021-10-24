@@ -4,10 +4,13 @@ import { users } from "../../firebase";
 import shortid from "shortid";
 
 import UserListItem from "../UserListItem/UserListItem";
+import SearchBar from "../SearchBar/SearchBar";
 
 import UserListStyles from "./UserList.module.css";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function UserList() {
+  const { currentUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [currentUsers, setCurrentUsers] = useState([]);
@@ -19,7 +22,9 @@ export default function UserList() {
         const allusers = [];
         const data = await users.get();
         data.forEach((user) => {
-          allusers.push(user.val());
+          if (user.val().email !== currentUser.email) {
+            allusers.push(user.val());
+          }
         });
         setCurrentUsers(allusers);
       } catch (err) {
@@ -34,6 +39,8 @@ export default function UserList() {
 
   return (
     <div className={UserListStyles.container}>
+      <SearchBar text="Search Users" />
+
       {currentUsers.map((user) => {
         return <UserListItem user={user} key={shortid()} />;
       })}

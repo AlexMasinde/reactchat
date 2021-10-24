@@ -1,0 +1,20 @@
+.select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2.9rem 2.4rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 1.2rem 0;
+}
+
+.select > p {
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 150%;
+}
+
+.select > img {
+  width: 4em;
+  height: 4em;
+}
