@@ -18,8 +18,15 @@ const app = firebase.initializeApp(firebaseConfig);
 const auth = app.auth();
 const storage = app.storage();
 const firestore = app.firestore();
+
 const realtimeDb = app.database();
-const users = realtimeDb.ref("users/");
+
+const chats = {
+  users: realtimeDb.ref("users/"),
+  conversations: realtimeDb.ref("conversations/"),
+  userConversations: realtimeDb.ref("userconversations/"),
+  timeStamp: firebase.database.ServerValue.TIMESTAMP,
+};
 
 const database = {
   messages: firestore.collection("messages"),
@@ -29,4 +36,4 @@ const database = {
   timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
 };
 
-export { auth, database, storage, users, firebase };
+export { auth, database, storage, chats, firebase };

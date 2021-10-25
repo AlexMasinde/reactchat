@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react/cjs/react.development";
-import { users } from "../../firebase";
+import { chats } from "../../firebase";
 import shortid from "shortid";
 
 import UserListItem from "../UserListItem/UserListItem";
@@ -20,10 +20,10 @@ export default function UserList() {
       try {
         setLoading(true);
         const allusers = [];
-        const data = await users.get();
+        const data = await chats.users.get();
         data.forEach((user) => {
           if (user.val().email !== currentUser.email) {
-            allusers.push(user.val());
+            allusers.push({ ...user.val(), uid: user.key });
           }
         });
         setCurrentUsers(allusers);
@@ -40,7 +40,6 @@ export default function UserList() {
   return (
     <div className={UserListStyles.container}>
       <SearchBar text="Search Users" />
-
       {currentUsers.map((user) => {
         return <UserListItem user={user} key={shortid()} />;
       })}

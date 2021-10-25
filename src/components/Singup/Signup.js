@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import { useAuth } from "../../contexts/AuthContext";
-import { auth, storage, users } from "../../firebase";
+import { auth, storage, chats } from "../../firebase";
 
 import { validateSingup } from "../../utils/validate";
 
@@ -98,7 +98,7 @@ export default function Singup() {
           photoUrl: profileUrl,
           displayName: username,
         });
-        await users.child(currentUser.uid).set({
+        await chats.users.child(currentUser.uid).set({
           username: username,
           photo: profileUrl,
           email: email,
@@ -107,7 +107,7 @@ export default function Singup() {
       } else {
         await auth.currentUser.updateProfile({ displayName: username });
         const currentUser = auth.currentUser;
-        await users.child(currentUser.uid).set({
+        await chats.users.child(currentUser.uid).set({
           username: username,
           email: email,
           presence: "online",

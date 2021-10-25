@@ -14,6 +14,8 @@ function chatReducer(state, action) {
       return { ...state, selectedChat: action.payload };
     case "SET_CONVERSATIONS":
       return { ...state, conversations: action.payload };
+    case "SET_SELECTED_USER":
+      return { ...state, selectedUser: action.payload };
   }
 }
 
@@ -21,6 +23,7 @@ const initialState = {
   chatList: [],
   conversations: [],
   selectedChat: {},
+  selectedUser: {},
 };
 
 export function ChatContextProvider({ children }) {
@@ -30,6 +33,7 @@ export function ChatContextProvider({ children }) {
     chatList: state.chatList,
     conversations: state.conversations,
     selectedChat: state.selectedChat,
+    selectedUser: state.selectedUser,
     dispatch,
   };
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

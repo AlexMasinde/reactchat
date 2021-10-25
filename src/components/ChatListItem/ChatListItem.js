@@ -2,16 +2,16 @@ import React from "react";
 
 import ChatListItemStyles from "./ChatList.module.csss";
 
-export default function ChatListItem() {
+export default function ChatListItem({ user, message }) {
   return (
     <div className={ChatListItemStyles.container}>
       <div className={ChatListItemStyles.image}>
-        <img src={placeholder} alt="profile" />
+        <img src={user.photo} alt="profile" referrerPolicy="no-referrer" />
       </div>
       <div className={ChatListItemStyles.details}>
-        <p className={ChatListItemStyles.name}>John Doe</p>
-        <p className={ChatListItemStyles.message}>This is test message</p>
-        <p className={ChatListItemStyles.presence}>Online</p>
+        <p className={ChatListItemStyles.name}>{user.username}</p>
+        <p className={ChatListItemStyles.message}>{message}</p>
+        <p className={ChatListItemStyles.presence}>{user.presence}</p>
       </div>
     </div>
   );
