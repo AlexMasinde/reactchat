@@ -39,7 +39,7 @@ export default function ChatInput() {
       const newMesage = {
         text: message,
         sender: currentUser.uid,
-        sentAt: chats.timeStamp,
+        sentAt: new Date(),
         read: false,
       };
 

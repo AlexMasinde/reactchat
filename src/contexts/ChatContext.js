@@ -33,7 +33,7 @@ const initialState = {
 export function ChatContextProvider({ children }) {
   const [state, dispatch] = useReducer(chatReducer, initialState);
 
-  const userConversations = useConversations();
+  const data = useConversations();
 
   const value = {
     chatList: state.chatList,
@@ -44,7 +44,7 @@ export function ChatContextProvider({ children }) {
   };
   return (
     <ChatContext.Provider value={value}>
-      {console.log(userConversations)}
+      {console.log(data)}
       {children}
     </ChatContext.Provider>
   );
