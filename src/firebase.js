@@ -29,7 +29,7 @@ const chats = {
 };
 
 const database = {
-  messages: firestore.collection("messages"),
+  conversations: firestore.collection("conversations"),
   formatDocument: (doc) => {
     return { id: doc.id, ...doc.data() };
   },

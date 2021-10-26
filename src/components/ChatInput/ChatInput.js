@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react/cjs/react.development";
 import shortid from "shortid";
+import { database, firebase } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useChat } from "../../contexts/ChatContext";
 import { chats } from "../../firebase";
@@ -25,28 +26,16 @@ export default function ChatInput() {
     if (!selectedUser) {
       return;
     }
-    const users = [currentUser.uid, selectedUser.uid];
+
+    const sender = currentUser.uid;
+    const receiver = selectedUser.uid;
+
+    const users = [sender, receiver];
     const chatTitle = users.join(":");
     const chatExists = conversations.filter(
       (conversation) => conversation.uid === chatTitle
     );
     try {
-      if (chatExists.length < 1) {
-        const newConversation = {
-          uid: chatTitle,
-          startedAt: chats.timeStamp,
-          with: selectedUser.uid,
-        };
-        await chats.users
-          .child(`${currentUser.uid}/conversations`)
-          .child(chatTitle)
-          .set(newConversation);
-
-        dispatch({
-          type: "SET_CONVERSATIONS",
-          payload: [newConversation, ...conversations],
-        });
-      }
       const newMesage = {
         text: message,
         sender: currentUser.uid,
@@ -54,10 +43,17 @@ export default function ChatInput() {
         read: false,
       };
 
-      await chats.conversations
-        .child(chatTitle)
-        .child(shortid())
-        .set(newMesage);
+      if (chatExists.length < 1) {
+        await database.conversations.doc(chatTitle).set({
+          [receiver]: true,
+          [sender]: true,
+          messages: firebase.firestore.FieldValue.arrayUnion(newMesage),
+        });
+      }
+
+      await database.conversations.doc(chatTitle).update({
+        messages: firebase.firestore.FieldValue.arrayUnion(newMesage),
+      });
     } catch (err) {
       console.log(err);
     }
@@ -67,7 +63,7 @@ export default function ChatInput() {
     try {
       setLoading(true);
       setError();
-
+      await sendMessage();
       setLoading(false);
     } catch (err) {
       console.log(err);

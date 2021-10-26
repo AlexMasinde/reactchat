@@ -1,4 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
+import useConversations from "../hooks/useConversations";
 
 export const ChatContext = createContext();
 
@@ -16,6 +17,9 @@ function chatReducer(state, action) {
       return { ...state, conversations: action.payload };
     case "SET_SELECTED_USER":
       return { ...state, selectedUser: action.payload };
+    default: {
+      return state;
+    }
   }
 }
 
@@ -29,6 +33,8 @@ const initialState = {
 export function ChatContextProvider({ children }) {
   const [state, dispatch] = useReducer(chatReducer, initialState);
 
+  const userConversations = useConversations();
+
   const value = {
     chatList: state.chatList,
     conversations: state.conversations,
@@ -36,5 +42,10 @@ export function ChatContextProvider({ children }) {
     selectedUser: state.selectedUser,
     dispatch,
   };
-  return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
+  return (
+    <ChatContext.Provider value={value}>
+      {console.log(userConversations)}
+      {children}
+    </ChatContext.Provider>
+  );
 }
