@@ -100,6 +100,7 @@ export default function ChatInput() {
             lastMessage: message,
             sentAt: chats.timeStamp,
             read: false,
+            git,
           });
       }
     } catch (err) {
