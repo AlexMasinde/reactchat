@@ -30,10 +30,10 @@ const chats = {
 
 const database = {
   conversations: firestore.collection("conversations"),
+  timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
   formatDocument: (doc) => {
     return { id: doc.id, ...doc.data() };
   },
-  timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
 };
 
 export { auth, database, storage, chats, firebase };

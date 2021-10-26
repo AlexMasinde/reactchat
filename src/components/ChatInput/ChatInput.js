@@ -39,21 +39,29 @@ export default function ChatInput() {
       const newMesage = {
         text: message,
         sender: currentUser.uid,
-        sentAt: new Date(),
+        sentAt: chats.timeStamp,
         read: false,
       };
 
-      if (chatExists.length < 1) {
-        await database.conversations.doc(chatTitle).set({
-          [receiver]: true,
-          [sender]: true,
-          messages: firebase.firestore.FieldValue.arrayUnion(newMesage),
-        });
-      }
+      await chats.conversations
+        .child(chatTitle)
+        .child("messages")
+        .child(shortid())
+        .set(newMesage);
 
-      await database.conversations.doc(chatTitle).update({
-        messages: firebase.firestore.FieldValue.arrayUnion(newMesage),
-      });
+      const chatExists = await chats.users
+        .child(receiver)
+        .child(`conversations/${chatTitle}`)
+        .get();
+
+      if (!chatExists.exists()) {
+        await chats.users
+          .child(receiver)
+          .child(`conversations/${chatTitle}`)
+          .set({
+            startedAt: chats.timeStamp,
+          });
+      }
     } catch (err) {
       console.log(err);
     }

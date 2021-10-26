@@ -10,7 +10,7 @@ export default function useConversations() {
     const subscribe = chats.conversations
       .orderByChild(currentUser.uid)
       .equalTo(true)
-      .on("child_added", (dataSnapshot) => {
+      .on("child_changed", (dataSnapshot) => {
         setData((data) => [
           ...data,
           { ...dataSnapshot.val(), uid: dataSnapshot.key },

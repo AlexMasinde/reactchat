@@ -42,10 +42,5 @@ export function ChatContextProvider({ children }) {
     selectedUser: state.selectedUser,
     dispatch,
   };
-  return (
-    <ChatContext.Provider value={value}>
-      {console.log(data)}
-      {children}
-    </ChatContext.Provider>
-  );
+  return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
 }
