@@ -37,7 +37,6 @@ export function ChatContextProvider({ children }) {
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    const data = [];
     chats.users
       .child(currentUser.uid)
       .child("conversations")
@@ -56,7 +55,7 @@ export function ChatContextProvider({ children }) {
       .catch((err) => {
         console.log(err);
       });
-  });
+  }, [currentUser]);
 
   const value = {
     chatList: state.chatList,
