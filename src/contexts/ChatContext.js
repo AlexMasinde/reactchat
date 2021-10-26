@@ -1,5 +1,7 @@
 import { createContext, useContext, useReducer } from "react";
-import useConversations from "../hooks/useConversations";
+import { useEffect } from "react/cjs/react.development";
+import { chats } from "../firebase";
+import { useAuth } from "./AuthContext";
 
 export const ChatContext = createContext();
 
@@ -32,8 +34,29 @@ const initialState = {
 
 export function ChatContextProvider({ children }) {
   const [state, dispatch] = useReducer(chatReducer, initialState);
+  const { currentUser } = useAuth();
 
-  const data = useConversations();
+  useEffect(() => {
+    const data = [];
+    chats.users
+      .child(currentUser.uid)
+      .child("conversations")
+      .get()
+      .then((dataSnapshot) => {
+        const data = [];
+        dataSnapshot.forEach((conversation) => [
+          ...data,
+          { ...conversation.val(), uid: conversation.key },
+        ]);
+        dispatch({
+          type: "SET_CONVERSATIONS",
+          payload: data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
   const value = {
     chatList: state.chatList,

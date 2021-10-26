@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react/cjs/react.development";
 import shortid from "shortid";
-import { database, firebase } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useChat } from "../../contexts/ChatContext";
 import { chats } from "../../firebase";
@@ -32,7 +31,7 @@ export default function ChatInput() {
 
     const users = [sender, receiver];
     const chatTitle = users.join(":");
-    const chatExists = conversations.filter(
+    const conversationExists = conversations.filter(
       (conversation) => conversation.uid === chatTitle
     );
     try {
@@ -54,12 +53,53 @@ export default function ChatInput() {
         .child(`conversations/${chatTitle}`)
         .get();
 
+      if (conversationExists.length < 1) {
+        await chats.users
+          .child(sender)
+          .child(`conversations/${chatTitle}`)
+          .set({
+            conversationStartedAt: chats.timeStamp,
+            conversationWith: receiver,
+            lastMessage: {
+              message: message,
+              sentAt: chats.timeStamp,
+              read: false,
+            },
+          });
+      } else {
+        await chats.users
+          .child(sender)
+          .child(`conversations/${chatTitle}`)
+          .update({
+            lastMessage: {
+              message: message,
+              sentAt: chats.timeStamp,
+              read: false,
+            },
+          });
+      }
+
       if (!chatExists.exists()) {
         await chats.users
           .child(receiver)
           .child(`conversations/${chatTitle}`)
           .set({
-            startedAt: chats.timeStamp,
+            conversationStartedAt: chats.timeStamp,
+            lastMessage: {
+              message: message,
+              sentAt: chats.timeStamp,
+              read: false,
+            },
+            conversationWith: sender,
+          });
+      } else {
+        await chats.users
+          .child(receiver)
+          .child(`conversations/${chatTitle}`)
+          .update({
+            lastMessage: message,
+            sentAt: chats.timeStamp,
+            read: false,
           });
       }
     } catch (err) {
