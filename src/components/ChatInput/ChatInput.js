@@ -34,6 +34,7 @@ export default function ChatInput() {
     const conversationExists = conversations.filter(
       (conversation) => conversation.uid === chatTitle
     );
+
     try {
       const newMesage = {
         text: message,
@@ -70,12 +71,11 @@ export default function ChatInput() {
         await chats.users
           .child(sender)
           .child(`conversations/${chatTitle}`)
+          .child("lastMessage")
           .update({
-            lastMessage: {
-              message: message,
-              sentAt: chats.timeStamp,
-              read: false,
-            },
+            message: message,
+            sentAt: chats.timeStamp,
+            read: false,
           });
       }
 
@@ -96,11 +96,11 @@ export default function ChatInput() {
         await chats.users
           .child(receiver)
           .child(`conversations/${chatTitle}`)
+          .child("lastMessage")
           .update({
-            lastMessage: message,
+            message: message,
             sentAt: chats.timeStamp,
             read: false,
-            git,
           });
       }
     } catch (err) {

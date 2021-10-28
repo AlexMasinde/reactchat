@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  margin-bottom: 2em;
+}
+
+.container:hover {
+  cursor: pointer;
+}
+
+.image > img {
+  border-radius: 1.2em;
+  height: 4.8em;
+  width: 4.8em;
+}
+.details {
+  margin-left: 1.6em;
+}
+
+.user > p {
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 150%;
+}
+
+.username::before {
+  content: "";
+  display: inline-block;
+  width: 0.8em;
+  margin-right: 0.5em;
+  height: 0.8em;
+  background-color: #68d391;
+  border-radius: 50%;
+}
+
+.user {
+  display: flex;
+}
+.message {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.4);
+  margin-left: 2rem;
+  margin-top: 0.5rem;
+}

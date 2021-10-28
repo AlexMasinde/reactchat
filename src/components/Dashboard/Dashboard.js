@@ -8,9 +8,13 @@ import addicon from "../../icons/add.png";
 
 import DashboardStyles from "./Dashboard.module.css";
 import ChatInput from "../ChatInput/ChatInput";
+import ChatList from "../ChatList/ChatList";
+import ChatView from "../ChatView/ChatView";
+import { useChat } from "../../contexts/ChatContext";
 
 export default function Dashboard() {
   const { currentUser, userSignout } = useAuth();
+  const { selectedChat } = useChat();
   async function handleSignout() {
     await userSignout();
   }
@@ -23,6 +27,8 @@ export default function Dashboard() {
       </div>
       <UserList />
       <ChatInput />
+      <ChatList />
+      {selectedChat && <ChatView />}
     </div>
   );
 }

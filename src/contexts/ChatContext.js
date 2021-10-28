@@ -19,6 +19,8 @@ function chatReducer(state, action) {
       return { ...state, conversations: action.payload };
     case "SET_SELECTED_USER":
       return { ...state, selectedUser: action.payload };
+    case "SET_USERS":
+      return { ...state, allUsers: action.payload };
     default: {
       return state;
     }
@@ -26,9 +28,10 @@ function chatReducer(state, action) {
 }
 
 const initialState = {
+  allUsers: [],
   chatList: [],
   conversations: [],
-  selectedChat: {},
+  selectedChat: null,
   selectedUser: {},
 };
 
@@ -37,24 +40,56 @@ export function ChatContextProvider({ children }) {
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    chats.users
+    async function getUsers() {
+      try {
+        const allusers = [];
+        const data = await chats.users.get();
+        data.forEach((user) => {
+          if (user.val().email !== currentUser.email) {
+            allusers.push({ ...user.val(), uid: user.key });
+          }
+        });
+        dispatch({
+          type: "SET_USERS",
+          payload: allusers,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getUsers();
+  }, [currentUser]);
+
+  useEffect(() => {
+    const subscribe = chats.users
       .child(currentUser.uid)
       .child("conversations")
-      .get()
-      .then((dataSnapshot) => {
-        const data = [];
-        dataSnapshot.forEach((conversation) => [
-          ...data,
-          { ...conversation.val(), uid: conversation.key },
-        ]);
-        dispatch({
-          type: "SET_CONVERSATIONS",
-          payload: data,
+      .on("value", (dataSnapshot) => {
+        const promises = [];
+        let allConversations = [];
+        dataSnapshot.forEach((snapshot) => {
+          promises.push({ ...snapshot.val(), uid: snapshot.key });
         });
-      })
-      .catch((err) => {
-        console.log(err);
+
+        Promise.all(promises)
+          .then((conversations) => {
+            conversations.forEach((conversation) => {
+              allConversations.push(conversation);
+            });
+          })
+          .finally(() => {
+            dispatch({
+              type: "SET_CONVERSATIONS",
+              payload: allConversations,
+            });
+          });
       });
+
+    return () =>
+      chats.users
+        .child(currentUser.uid)
+        .child("conversations")
+        .off("value", subscribe);
   }, [currentUser]);
 
   const value = {
@@ -62,7 +97,13 @@ export function ChatContextProvider({ children }) {
     conversations: state.conversations,
     selectedChat: state.selectedChat,
     selectedUser: state.selectedUser,
+    allUsers: state.allUsers,
     dispatch,
   };
-  return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
+
+  return (
+    currentUser && (
+      <ChatContext.Provider value={value}>{children}</ChatContext.Provider>
+    )
+  );
 }

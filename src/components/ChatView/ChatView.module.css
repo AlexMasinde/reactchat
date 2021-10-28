@@ -1,0 +1,41 @@
+.userdetails {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1.9em 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  margin-bottom: 2.5em;
+}
+
+.profilephoto > img {
+  width: 4em;
+  height: 4em;
+  border-radius: 1em;
+}
+
+.username {
+  font-size: 2rem;
+  line-height: 125%;
+  font-weight: 600;
+}
+
+.status {
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 150%;
+  opacity: 0.6;
+}
+
+.status::before {
+  content: "";
+  display: inline-block;
+  width: 0.8em;
+  margin-right: 0.5em;
+  height: 0.8em;
+  background-color: #68d391;
+  border-radius: 50%;
+}
+
+.name {
+  margin-left: 1.6em;
+}

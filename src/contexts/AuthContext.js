@@ -54,7 +54,7 @@ export function AuthProvider({ children }) {
 
   return (
     <>
-      {loading && <div className="latestArticles__loader"></div>}
+      {loading && <div>Loading</div>}
       {!loading && (
         <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
       )}

@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  margin-bottom: 1em;
+}
+
+.message {
+  border-radius: 1.2em;
+  padding: 1em 1.6em;
+  max-width: 25em;
+  height: fit-content;
+  background-color: #f1f1f1;
+  margin-left: 1.6em;
+}
+
+.message > p {
+  font-size: 1.4rem;
+}
+
+.profilephoto,
+.profilephoto > img {
+  height: 4em;
+  width: 4em;
+  border-radius: 1em;
+}
