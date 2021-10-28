@@ -2,7 +2,7 @@ import React from "react";
 import shortid from "shortid";
 
 import Message from "../Message/Message";
-
+import ChatInput from "../ChatInput/ChatInput";
 import { useChat } from "../../contexts/ChatContext";
 
 import useChatMessages from "../../Hooks/useChatMessages";
@@ -38,6 +38,9 @@ export default function ChatView() {
           />
         );
       })}
+      <div>
+        <ChatInput />
+      </div>
     </div>
   );
 }

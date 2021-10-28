@@ -7,7 +7,6 @@ import UserList from "../UserLIst/UserList";
 import addicon from "../../icons/add.png";
 
 import DashboardStyles from "./Dashboard.module.css";
-import ChatInput from "../ChatInput/ChatInput";
 import ChatList from "../ChatList/ChatList";
 import ChatView from "../ChatView/ChatView";
 import { useChat } from "../../contexts/ChatContext";
@@ -26,7 +25,6 @@ export default function Dashboard() {
         <img src={addicon} alt="new chat" />
       </div>
       <UserList />
-      <ChatInput />
       <ChatList />
       {selectedChat && <ChatView />}
     </div>

@@ -14,15 +14,25 @@ export default function Message({ message, chatUser, allMessages }) {
       ? currentUser.photoURL ?? placeholder
       : chatUser.photo ?? placeholder;
 
+  const isSender = message.sender === currentUser.uid;
+
+  const messageClasses = isSender
+    ? `${MessageStyles.sender} ${MessageStyles.message}`
+    : `${MessageStyles.receiver} ${MessageStyles.message}`;
+
+  const containerClasses = isSender
+    ? `${MessageStyles.container} ${MessageStyles.reversedcontainer}`
+    : `${MessageStyles.container}`;
+
   return (
-    <div className={MessageStyles.container}>
+    <div className={containerClasses}>
       <div className={MessageStyles.profilephoto}>
         {showMessagePicture && (
           <img src={imageSource} alt={chatUser.username} />
         )}
       </div>
-      <div className={MessageStyles.message}>
-        <p>This is a test message</p>
+      <div className={messageClasses}>
+        <p>{message.text}</p>
       </div>
     </div>
   );
