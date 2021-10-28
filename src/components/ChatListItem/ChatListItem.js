@@ -22,6 +22,12 @@ export default function ChatListItem({ conversation }) {
     });
   }
 
+  const readConversation = lastMessage.readConversation;
+
+  const messageClasses = readConversation
+    ? `${ChatListItemStyles.message} ${ChatListItemStyles.read}`
+    : `${ChatListItemStyles.message} ${ChatListItemStyles.unread}`;
+
   return (
     <div onClick={() => selectChat()} className={ChatListItemStyles.container}>
       <div className={ChatListItemStyles.image}>
@@ -36,7 +42,7 @@ export default function ChatListItem({ conversation }) {
           <p className={ChatListItemStyles.username}>{user?.username}</p>
           <p>{timeSent}</p>
         </div>
-        <p className={ChatListItemStyles.message}>{message}</p>
+        <p className={messageClasses}>{message}</p>
       </div>
     </div>
   );
