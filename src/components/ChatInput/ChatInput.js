@@ -65,6 +65,7 @@ export default function ChatInput() {
               message: message,
               sentAt: chats.timeStamp,
               read: false,
+              sender: sender,
             },
           });
       } else {
@@ -76,6 +77,7 @@ export default function ChatInput() {
             message: message,
             sentAt: chats.timeStamp,
             read: false,
+            sender: sender,
           });
       }
 
@@ -89,6 +91,7 @@ export default function ChatInput() {
               message: message,
               sentAt: chats.timeStamp,
               read: false,
+              sender: sender,
             },
             conversationWith: sender,
           });
@@ -101,6 +104,7 @@ export default function ChatInput() {
             message: message,
             sentAt: chats.timeStamp,
             read: false,
+            sender: sender,
           });
       }
     } catch (err) {

@@ -42,3 +42,7 @@
   margin-left: 2rem;
   margin-top: 0.5rem;
 }
+
+.unread {
+  color: rgba(0, 0, 0, 1) !important;
+}

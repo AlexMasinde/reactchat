@@ -1,5 +1,9 @@
 import React from "react";
+
 import { useChat } from "../../contexts/ChatContext";
+import { useAuth } from "../../contexts/AuthContext";
+
+import { chats } from "../../firebase";
 
 import { findDifference } from "../../utils/findDifference";
 
@@ -8,6 +12,7 @@ import placeholder from "../../icons/avatar.png";
 import ChatListItemStyles from "./ChatListItem.module.css";
 
 export default function ChatListItem({ conversation }) {
+  const { currentUser } = useAuth();
   const { allUsers, dispatch } = useChat();
   const { lastMessage, conversationWith } = conversation;
   const user = allUsers.filter((user) => user.uid === conversationWith)[0];
@@ -15,18 +20,30 @@ export default function ChatListItem({ conversation }) {
 
   const timeSent = findDifference(sentAt);
 
-  function selectChat() {
+  async function selectChat() {
     dispatch({
       type: "SET_SELECTED_CHAT",
       payload: conversation,
     });
+
+    if (!lastMessage.read && lastMessage.sender !== currentUser.uid) {
+      await chats.users
+        .child(currentUser.uid)
+        .child("conversations")
+        .child(conversation.uid)
+        .child("lastMessage")
+        .update({
+          read: true,
+        });
+    }
   }
 
-  const readConversation = lastMessage.readConversation;
+  const readConversation =
+    !lastMessage.read && lastMessage.sender !== currentUser.uid;
 
   const messageClasses = readConversation
-    ? `${ChatListItemStyles.message} ${ChatListItemStyles.read}`
-    : `${ChatListItemStyles.message} ${ChatListItemStyles.unread}`;
+    ? `${ChatListItemStyles.message} ${ChatListItemStyles.unread}`
+    : `${ChatListItemStyles.message}`;
 
   return (
     <div onClick={() => selectChat()} className={ChatListItemStyles.container}>

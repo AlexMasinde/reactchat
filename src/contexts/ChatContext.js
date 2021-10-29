@@ -43,6 +43,7 @@ export function ChatContextProvider({ children }) {
       if (!currentUser) {
         return;
       }
+
       try {
         const allusers = [];
         const data = await chats.users.get();
@@ -66,6 +67,7 @@ export function ChatContextProvider({ children }) {
     if (!currentUser) {
       return;
     }
+
     const subscribe = chats.users
       .child(currentUser.uid)
       .child("conversations")
