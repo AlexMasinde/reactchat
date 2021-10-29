@@ -3,7 +3,7 @@ import React from "react";
 import { useChat } from "../../contexts/ChatContext";
 import { useAuth } from "../../contexts/AuthContext";
 
-import { chats } from "../../firebase";
+import markAsRead from "../../utils/markAsRead";
 
 import { findDifference } from "../../utils/findDifference";
 
@@ -26,16 +26,7 @@ export default function ChatListItem({ conversation }) {
       payload: conversation,
     });
 
-    if (!lastMessage.read && lastMessage.sender !== currentUser.uid) {
-      await chats.users
-        .child(currentUser.uid)
-        .child("conversations")
-        .child(conversation.uid)
-        .child("lastMessage")
-        .update({
-          read: true,
-        });
-    }
+    await markAsRead(conversation, currentUser);
   }
 
   const readConversation =
