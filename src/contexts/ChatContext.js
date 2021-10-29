@@ -40,6 +40,9 @@ export function ChatContextProvider({ children }) {
 
   useEffect(() => {
     async function getUsers() {
+      if (!currentUser) {
+        return;
+      }
       try {
         const allusers = [];
         const data = await chats.users.get();
@@ -60,6 +63,9 @@ export function ChatContextProvider({ children }) {
   }, [currentUser]);
 
   useEffect(() => {
+    if (!currentUser) {
+      return;
+    }
     const subscribe = chats.users
       .child(currentUser.uid)
       .child("conversations")
@@ -100,9 +106,5 @@ export function ChatContextProvider({ children }) {
     dispatch,
   };
 
-  return (
-    currentUser && (
-      <ChatContext.Provider value={value}>{children}</ChatContext.Provider>
-    )
-  );
+  return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
 }

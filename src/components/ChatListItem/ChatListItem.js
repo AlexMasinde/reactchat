@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useChat } from "../../contexts/ChatContext";
 
 import { findDifference } from "../../utils/findDifference";

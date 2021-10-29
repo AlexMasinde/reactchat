@@ -14,14 +14,14 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <Switch>
-          <Route path="/signup" component={Singup} />
-          <Route path="/login" component={Login} />
-          <ChatContextProvider>
+        <ChatContextProvider>
+          <Switch>
+            <Route path="/signup" component={Singup} />
+            <Route path="/login" component={Login} />
             <PrivateRoute path="/userprofile/:uid" component={UserProfile} />
             <PrivateRoute path="/" component={Dashboard} exact />
-          </ChatContextProvider>
-        </Switch>
+          </Switch>
+        </ChatContextProvider>
       </AuthProvider>
     </Router>
   );

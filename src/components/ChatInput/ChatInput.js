@@ -12,7 +12,7 @@ import ChatInputStyles from "./ChatInput.module.css";
 
 export default function ChatInput() {
   const { currentUser } = useAuth();
-  const { selectedUser, conversations, dispatch } = useChat();
+  const { selectedUser, conversations } = useChat();
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
@@ -30,7 +30,7 @@ export default function ChatInput() {
     const receiver = selectedUser.uid;
 
     const users = [sender, receiver];
-    const chatTitle = users.join(":");
+    const chatTitle = users.sort().join(":");
     const conversationExists = conversations.filter(
       (conversation) => conversation.uid === chatTitle
     );
@@ -46,7 +46,7 @@ export default function ChatInput() {
       await chats.conversations
         .child(chatTitle)
         .child("messages")
-        .child(shortid())
+        .child(Math.floor(Date.now() + Math.random()))
         .set(newMesage);
 
       const chatExists = await chats.users

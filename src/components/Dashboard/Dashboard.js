@@ -10,13 +10,16 @@ import DashboardStyles from "./Dashboard.module.css";
 import ChatList from "../ChatList/ChatList";
 import ChatView from "../ChatView/ChatView";
 import { useChat } from "../../contexts/ChatContext";
+import ChatInput from "../ChatInput/ChatInput";
 
 export default function Dashboard() {
   const { currentUser, userSignout } = useAuth();
   const { selectedChat } = useChat();
+
   async function handleSignout() {
     await userSignout();
   }
+
   return (
     <div>
       <User />
@@ -27,6 +30,7 @@ export default function Dashboard() {
       <UserList />
       <ChatList />
       {selectedChat && <ChatView />}
+      <ChatInput />
     </div>
   );
 }
