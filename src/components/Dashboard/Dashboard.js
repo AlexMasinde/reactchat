@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import User from "../User/User";
 
@@ -13,11 +13,13 @@ import { useChat } from "../../contexts/ChatContext";
 import ChatInput from "../ChatInput/ChatInput";
 
 export default function Dashboard() {
-  const { currentUser, userSignout } = useAuth();
-  const { selectedChat } = useChat();
+  const { selectedChat, showUserList, dispatch } = useChat();
 
-  async function handleSignout() {
-    await userSignout();
+  function toggleUserList() {
+    dispatch({
+      type: "SHOW_USER_LIST",
+      payload: !showUserList,
+    });
   }
 
   return (
@@ -25,12 +27,19 @@ export default function Dashboard() {
       <User />
       <div className={DashboardStyles.select}>
         <p>Messages</p>
-        <img src={addicon} alt="new chat" />
+        <img onClick={() => toggleUserList()} src={addicon} alt="new chat" />
       </div>
-      <UserList />
+      {showUserList && (
+        <>
+          <div
+            onClick={() => toggleUserList()}
+            className={DashboardStyles.userlistcontainer}
+          ></div>
+          <UserList />
+        </>
+      )}
       <ChatList />
       {selectedChat && <ChatView />}
-      <ChatInput />
     </div>
   );
 }

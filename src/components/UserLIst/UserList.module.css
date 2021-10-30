@@ -1,0 +1,46 @@
+.container {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 70vh;
+  width: 40em;
+  max-width: 50em;
+  border-radius: 1.2em;
+  background: #ffffff;
+  z-index: 1000;
+}
+
+.header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header > p:last-child {
+  color: #615ef0;
+  font-weight: 600;
+  font-size: 1.6rem;
+  padding: 1rem 1.6rem;
+  background: rgba(97, 94, 240, 0.1);
+  border-radius: 0.8rem;
+}
+
+.header > p:first-child {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.header > p:last-child:hover {
+  cursor: pointer;
+}
+
+.searchbar {
+  padding: 3em 2em;
+}
+
+.list {
+  padding: 0 2em;
+}

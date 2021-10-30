@@ -1,6 +1,7 @@
 .container {
   display: flex;
   margin-bottom: 2em;
+  padding: 1.2em;
 }
 
 .container:hover {
@@ -45,4 +46,9 @@
 
 .unread {
   color: rgba(0, 0, 0, 1) !important;
+}
+
+.selected {
+  background: rgba(97, 94, 240, 0.06);
+  border-radius: 1.2em;
 }

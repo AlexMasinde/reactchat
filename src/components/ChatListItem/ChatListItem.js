@@ -13,7 +13,7 @@ import ChatListItemStyles from "./ChatListItem.module.css";
 
 export default function ChatListItem({ conversation }) {
   const { currentUser } = useAuth();
-  const { allUsers, dispatch } = useChat();
+  const { allUsers, dispatch, selectedChat } = useChat();
   const { lastMessage, conversationWith } = conversation;
   const user = allUsers.filter((user) => user.uid === conversationWith)[0];
   const { sentAt, message } = lastMessage;
@@ -21,10 +21,16 @@ export default function ChatListItem({ conversation }) {
   const timeSent = findDifference(sentAt);
 
   async function selectChat() {
-    dispatch({
-      type: "SET_SELECTED_CHAT",
-      payload: conversation,
-    });
+    if (!selectedChat || selectedChat.uid !== conversation.uid) {
+      dispatch({
+        type: "SET_SELECTED_CHAT",
+        payload: conversation,
+      });
+      dispatch({
+        type: "SET_SELECTED_USER",
+        payload: user,
+      });
+    }
 
     await markAsRead(conversation, currentUser);
   }
@@ -36,8 +42,13 @@ export default function ChatListItem({ conversation }) {
     ? `${ChatListItemStyles.message} ${ChatListItemStyles.unread}`
     : `${ChatListItemStyles.message}`;
 
+  const selected = conversation.uid === selectedChat.uid;
+
+  const containerStyles = selected
+    ? `${ChatListItemStyles.container} ${ChatListItemStyles.selected}`
+    : `${ChatListItemStyles.container}`;
   return (
-    <div onClick={() => selectChat()} className={ChatListItemStyles.container}>
+    <div onClick={() => selectChat()} className={containerStyles}>
       <div className={ChatListItemStyles.image}>
         <img
           src={user?.photo ?? placeholder}

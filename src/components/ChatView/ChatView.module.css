@@ -39,3 +39,14 @@
 .name {
   margin-left: 1.6em;
 }
+
+.chatdisplay {
+  height: 40rem;
+  overflow: auto;
+}
+
+.chatinput {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+}

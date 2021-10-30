@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import shortid from "shortid";
 
 import Message from "../Message/Message";
@@ -17,6 +17,16 @@ export default function ChatView() {
     (user) => user.uid === selectedChat.conversationWith
   )[0];
 
+  useEffect(() => {
+    const element = document.getElementById("chatdisplay");
+    if (element) {
+      element.scrollTo({
+        top: element.scrollHeight,
+        left: 0,
+      });
+    }
+  });
+
   return (
     <div className={ChatViewStyles.container}>
       <div className={ChatViewStyles.userdetails}>
@@ -28,18 +38,20 @@ export default function ChatView() {
           <p className={ChatViewStyles.status}>Online</p>
         </div>
       </div>
-      {messages.map((message) => {
-        return (
-          <Message
-            key={shortid()}
-            message={message}
-            chatUser={chatUser}
-            allMessages={messages}
-          />
-        );
-      })}
-      <div>
-        <ChatInput />
+      <div id="chatdisplay" className={ChatViewStyles.chatdisplay}>
+        {messages.map((message) => {
+          return (
+            <Message
+              key={shortid()}
+              message={message}
+              chatUser={chatUser}
+              allMessages={messages}
+            />
+          );
+        })}
+        <div className={ChatViewStyles.chatinput}>
+          <ChatInput />
+        </div>
       </div>
     </div>
   );

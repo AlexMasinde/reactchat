@@ -23,7 +23,7 @@ export default function ChatInput() {
   }
 
   async function sendMessage() {
-    if (!selectedUser) {
+    if (!selectedUser || message.trim() === "") {
       return;
     }
 
@@ -111,6 +111,7 @@ export default function ChatInput() {
     } catch (err) {
       console.log(err);
     }
+    setMessage("");
   }
 
   async function handleSend() {
@@ -145,7 +146,6 @@ export default function ChatInput() {
           onKeyUp={handleKeyUp}
           value={message}
           type="text"
-          placeholder="Type a message"
         />
         <img onClick={() => sendMessage()} src={sendicon} alt="send" />
       </div>
