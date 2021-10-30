@@ -1,11 +1,14 @@
+.container {
+  padding: 2em;
+}
 .select {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2.9rem 2.4rem;
+  padding: 1em 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   border-top: 1px solid rgba(0, 0, 0, 0.1);
-  margin: 1.2rem 0;
+  margin: 1.2em 0;
 }
 
 .select > p {

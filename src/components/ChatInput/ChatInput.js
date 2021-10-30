@@ -123,7 +123,6 @@ export default function ChatInput() {
     } catch (err) {
       console.log(err);
     }
-    setMessage("");
   }
 
   async function handleSend() {

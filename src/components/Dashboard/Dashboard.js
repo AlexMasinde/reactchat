@@ -23,7 +23,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div>
+    <div className={DashboardStyles.container}>
       <User />
       <div className={DashboardStyles.select}>
         <p>Messages</p>
