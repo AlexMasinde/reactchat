@@ -22,6 +22,8 @@ function chatReducer(state, action) {
       return { ...state, allUsers: action.payload };
     case "SHOW_USER_LIST":
       return { ...state, showUserList: action.payload };
+    case "DELETE_CHAT":
+      return { ...state, deleteChat: action.payload };
     default: {
       return state;
     }
@@ -35,6 +37,7 @@ const initialState = {
   selectedChat: null,
   selectedUser: {},
   showUserList: false,
+  deleteChat: false,
 };
 
 export function ChatContextProvider({ children }) {
@@ -109,6 +112,7 @@ export function ChatContextProvider({ children }) {
     selectedUser: state.selectedUser,
     allUsers: state.allUsers,
     showUserList: state.showUserList,
+    deleteChat: state.deleteChat,
     dispatch,
   };
 

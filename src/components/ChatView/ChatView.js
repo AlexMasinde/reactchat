@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import shortid from "shortid";
 
-import Message from "../Message/Message";
-import ChatInput from "../ChatInput/ChatInput";
 import { useChat } from "../../contexts/ChatContext";
 
+import Message from "../Message/Message";
+import ChatInput from "../ChatInput/ChatInput";
+
 import useChatMessages from "../../Hooks/useChatMessages";
+
 import placeholder from "../../icons/avatar.png";
 
 import ChatViewStyles from "./ChatView.module.css";
@@ -31,10 +33,10 @@ export default function ChatView() {
     <div className={ChatViewStyles.container}>
       <div className={ChatViewStyles.userdetails}>
         <div className={ChatViewStyles.profilephoto}>
-          <img src={chatUser.photo ?? placeholder} alt={chatUser.username} />
+          <img src={chatUser?.photo ?? placeholder} alt={chatUser?.username} />
         </div>
         <div className={ChatViewStyles.name}>
-          <p className={ChatViewStyles.username}>{chatUser.username}</p>
+          <p className={ChatViewStyles.username}>{chatUser?.username}</p>
           <p className={ChatViewStyles.status}>Online</p>
         </div>
       </div>

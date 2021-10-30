@@ -13,7 +13,8 @@ import ChatInputStyles from "./ChatInput.module.css";
 
 export default function ChatInput() {
   const { currentUser } = useAuth();
-  const { selectedUser, conversations, selectedChat } = useChat();
+  const { selectedUser, conversations, selectedChat, dispatch, deleteChat } =
+    useChat();
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
@@ -37,19 +38,6 @@ export default function ChatInput() {
     );
 
     try {
-      const newMesage = {
-        text: message,
-        sender: currentUser.uid,
-        sentAt: chats.timeStamp,
-        read: false,
-      };
-
-      await chats.conversations
-        .child(chatTitle)
-        .child("messages")
-        .child(Math.floor(Date.now() + Math.random()))
-        .set(newMesage);
-
       const chatExists = await chats.users
         .child(receiver)
         .child(`conversations/${chatTitle}`)
@@ -69,6 +57,18 @@ export default function ChatInput() {
               sender: sender,
             },
           });
+
+        const data = await chats.users
+          .child(currentUser.uid)
+          .child("conversations")
+          .child(chatTitle)
+          .get();
+        const newConversation = { ...data.val(), uid: data.key };
+        console.log(newConversation);
+        dispatch({
+          type: "SET_SELECTED_CHAT",
+          payload: newConversation,
+        });
       } else {
         await chats.users
           .child(sender)
@@ -108,6 +108,18 @@ export default function ChatInput() {
             sender: sender,
           });
       }
+      const newMesage = {
+        text: message,
+        sender: currentUser.uid,
+        sentAt: chats.timeStamp,
+        read: false,
+      };
+
+      await chats.conversations
+        .child(chatTitle)
+        .child("messages")
+        .child(Math.floor(Date.now() + Math.random()))
+        .set(newMesage);
     } catch (err) {
       console.log(err);
     }
@@ -136,9 +148,16 @@ export default function ChatInput() {
     }
   }
 
+  function handleDelete() {
+    dispatch({
+      type: "DELETE_CHAT",
+      payload: !deleteChat,
+    });
+  }
+
   return (
     <div className={ChatInputStyles.container}>
-      <img src={deleteicon} alt="delete" />
+      <img onClick={() => handleDelete()} src={deleteicon} alt="delete" />
       <div className={ChatInputStyles.message}>
         <input
           onChange={handleMessage}

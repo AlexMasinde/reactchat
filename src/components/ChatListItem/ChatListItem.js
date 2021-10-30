@@ -42,7 +42,7 @@ export default function ChatListItem({ conversation }) {
     ? `${ChatListItemStyles.message} ${ChatListItemStyles.unread}`
     : `${ChatListItemStyles.message}`;
 
-  const selected = conversation.uid === selectedChat.uid;
+  const selected = selectedChat && conversation.uid === selectedChat.uid;
 
   const containerStyles = selected
     ? `${ChatListItemStyles.container} ${ChatListItemStyles.selected}`

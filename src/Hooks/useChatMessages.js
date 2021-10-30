@@ -1,12 +1,18 @@
-import { useState } from "react";
-import { useEffect } from "react/cjs/react.development";
+import { useState, useEffect } from "react";
 import { chats } from "../firebase";
 
 export default function useChatMessages(selectedChat) {
   const [messages, setMessages] = useState([]);
   useEffect(() => {
+    if (!selectedChat.conversationStartedAt) {
+      return;
+    }
     setMessages([]);
-    const ref = chats.conversations.child(selectedChat.uid).child("messages");
+    const ref = chats.conversations
+      .child(selectedChat.uid)
+      .child("messages")
+      .orderByChild("sentAt")
+      .startAt(selectedChat.conversationStartedAt);
     const subscribe = ref.on("child_added", (dataSnapshot) => {
       setMessages((prevMessages) => [
         ...prevMessages,

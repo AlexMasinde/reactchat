@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
-import User from "../User/User";
+import React from "react";
 
+import { useChat } from "../../contexts/ChatContext";
+
+import User from "../User/User";
 import UserList from "../UserLIst/UserList";
+import ChatList from "../ChatList/ChatList";
+import ChatView from "../ChatView/ChatView";
+import DeleteChat from "../DeleteChat/DeleteChat";
 
 import addicon from "../../icons/add.png";
 
 import DashboardStyles from "./Dashboard.module.css";
-import ChatList from "../ChatList/ChatList";
-import ChatView from "../ChatView/ChatView";
-import { useChat } from "../../contexts/ChatContext";
-import ChatInput from "../ChatInput/ChatInput";
 
 export default function Dashboard() {
-  const { selectedChat, showUserList, dispatch } = useChat();
+  const { selectedChat, showUserList, deleteChat, dispatch } = useChat();
 
   function toggleUserList() {
     dispatch({
@@ -33,13 +33,19 @@ export default function Dashboard() {
         <>
           <div
             onClick={() => toggleUserList()}
-            className={DashboardStyles.userlistcontainer}
+            className={DashboardStyles.modalcontainer}
           ></div>
           <UserList />
         </>
       )}
       <ChatList />
       {selectedChat && <ChatView />}
+      {deleteChat && (
+        <>
+          <div className={DashboardStyles.modalcontainer}></div>
+          <DeleteChat />
+        </>
+      )}
     </div>
   );
 }
