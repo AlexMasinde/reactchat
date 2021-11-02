@@ -47,6 +47,7 @@ export default function ChatListItem({ conversation }) {
   const containerStyles = selected
     ? `${ChatListItemStyles.container} ${ChatListItemStyles.selected}`
     : `${ChatListItemStyles.container}`;
+
   return (
     <div onClick={() => selectChat()} className={containerStyles}>
       <div className={ChatListItemStyles.image}>
