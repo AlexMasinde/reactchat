@@ -36,6 +36,7 @@ const initialState = {
   conversations: [],
   selectedChat: null,
   selectedUser: {},
+  testObject: null,
   showUserList: false,
   deleteChat: false,
 };

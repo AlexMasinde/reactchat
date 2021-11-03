@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { useChat } from "../../contexts/ChatContext";
 
@@ -18,9 +18,7 @@ import DashboardStyles from "./Dashboard.module.css";
 export default function Dashboard() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { selectedChat, showUserList, deleteChat, dispatch } = useChat();
-
-  const viewChatList = isMobile && selectedChat;
-  console.log(isMobile);
+  const viewChatList = showChatList(isMobile, selectedChat, showUserList);
 
   function toggleUserList() {
     if (isMobile) {
@@ -42,7 +40,7 @@ export default function Dashboard() {
         <p>Messages</p>
         <img onClick={() => toggleUserList()} src={addicon} alt="new chat" />
       </div>
-      {showUserList && (
+      {selectedChat && (
         <>
           <div
             onClick={() => toggleUserList()}
@@ -51,7 +49,7 @@ export default function Dashboard() {
           <UserList />
         </>
       )}
-      {!viewChatList && <ChatList />}
+      {viewChatList && <ChatList />}
       {selectedChat && <ChatView />}
       {deleteChat && (
         <>
