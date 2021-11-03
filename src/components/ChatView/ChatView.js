@@ -13,7 +13,7 @@ import placeholder from "../../icons/avatar.png";
 import ChatViewStyles from "./ChatView.module.css";
 
 export default function ChatView() {
-  const { allUsers, selectedChat } = useChat();
+  const { allUsers, selectedChat, dispatch } = useChat();
   const messages = useChatMessages(selectedChat);
   const chatUser = allUsers.filter(
     (user) => user.uid === selectedChat.conversationWith
@@ -29,15 +29,30 @@ export default function ChatView() {
     }
   });
 
+  function closeChat() {
+    dispatch({
+      type: "SET_SELECTED_CHAT",
+      payload: null,
+    });
+  }
+
   return (
     <div className={ChatViewStyles.container}>
-      <div className={ChatViewStyles.userdetails}>
-        <div className={ChatViewStyles.profilephoto}>
-          <img src={chatUser?.photo ?? placeholder} alt={chatUser?.username} />
+      <div className={ChatViewStyles.header}>
+        <div className={ChatViewStyles.userdetails}>
+          <div className={ChatViewStyles.profilephoto}>
+            <img
+              src={chatUser?.photo ?? placeholder}
+              alt={chatUser?.username}
+            />
+          </div>
+          <div className={ChatViewStyles.name}>
+            <p className={ChatViewStyles.username}>{chatUser?.username}</p>
+            <p className={ChatViewStyles.status}>Online</p>
+          </div>
         </div>
-        <div className={ChatViewStyles.name}>
-          <p className={ChatViewStyles.username}>{chatUser?.username}</p>
-          <p className={ChatViewStyles.status}>Online</p>
+        <div onClick={() => closeChat()}>
+          <p>Click to close</p>
         </div>
       </div>
       <div id="chatdisplay" className={ChatViewStyles.chatdisplay}>

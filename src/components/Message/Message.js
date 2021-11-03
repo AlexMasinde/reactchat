@@ -5,6 +5,7 @@ import placeholder from "../../icons/avatar.png";
 import showProfilePicture from "../../utils/showProfilePicture";
 
 import MessageStyles from "./Message.module.css";
+
 export default function Message({ message, chatUser, allMessages }) {
   const { currentUser } = useAuth();
   const showMessagePicture = showProfilePicture(message, allMessages);
