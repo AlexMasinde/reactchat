@@ -46,28 +46,32 @@ export function ChatContextProvider({ children }) {
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    async function getUsers() {
-      if (!currentUser) {
-        return;
-      }
-
-      try {
-        const allusers = [];
-        const data = await chats.users.get();
-        data.forEach((user) => {
-          if (user.val().email !== currentUser.email) {
-            allusers.push({ ...user.val(), uid: user.key });
-          }
-        });
-        dispatch({
-          type: "SET_USERS",
-          payload: allusers,
-        });
-      } catch (err) {
-        console.log(err);
-      }
+    if (!currentUser) {
+      return;
     }
-    getUsers();
+
+    const subscribe = chats.users.on("value", (dataSnapshot) => {
+      const promises = [];
+      let allUsers = [];
+      dataSnapshot.forEach((snapshot) => {
+        promises.push({ ...snapshot.val(), uid: snapshot.key });
+      });
+
+      Promise.all(promises)
+        .then((users) => {
+          users.forEach((user) => {
+            allUsers.push(user);
+          });
+        })
+        .finally(() => {
+          dispatch({
+            type: "SET_USERS",
+            payload: allUsers,
+          });
+        });
+    });
+
+    return () => chats.users.off("value", subscribe);
   }, [currentUser]);
 
   useEffect(() => {

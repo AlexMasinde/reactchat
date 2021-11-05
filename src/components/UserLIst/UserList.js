@@ -1,6 +1,7 @@
 import shortid from "shortid";
 
 import { useChat } from "../../contexts/ChatContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 import UserListItem from "../UserListItem/UserListItem";
 import SearchBar from "../SearchBar/SearchBar";
@@ -9,6 +10,11 @@ import UserListStyles from "./UserList.module.css";
 
 export default function UserList() {
   const { allUsers, showUserList, dispatch } = useChat();
+  const { currentUser } = useAuth();
+
+  const usersToDisplay = allUsers.filter(
+    (user) => user.uid !== currentUser.uid
+  );
 
   function toggleUserList() {
     dispatch({
@@ -27,7 +33,7 @@ export default function UserList() {
         <SearchBar text="Search Users" />
       </div>
       <div className={UserListStyles.list}>
-        {allUsers.map((user) => {
+        {usersToDisplay.map((user) => {
           return <UserListItem user={user} key={shortid()} />;
         })}
       </div>

@@ -31,8 +31,8 @@ export function AuthProvider({ children }) {
   }
 
   async function userSignout() {
-    const status = "Offline";
-    await updatePresence(status, currentUser);
+    const presence = "Offline";
+    await updatePresence(presence, currentUser);
     return auth.signOut();
   }
 
@@ -44,7 +44,7 @@ export function AuthProvider({ children }) {
       .database()
       .ref(".info/connected")
       .on("value", async (snapshot) => {
-        if (snapshot.val() == false) {
+        if (snapshot.val() === false) {
           return;
         }
 
@@ -53,20 +53,20 @@ export function AuthProvider({ children }) {
           .onDisconnect()
           .update({ presence: "Offline", lastSeen: chats.timeStamp })
           .then(async () => {
-            await chats.users
-              .child(currentUser.uid)
-              .update({ presence: "Online" });
+            if (currentUser) {
+              await chats.users
+                .child(currentUser.uid)
+                .update({ presence: "Online" });
+            }
           });
       });
   });
 
   useEffect(() => {
-    if (!currentUser) {
-      return;
-    }
-    console.log("window visibility hook ran");
-
-    const subscribe = (document.onvisibilitychange = async (e) => {
+    document.onvisibilitychange = async (e) => {
+      if (!currentUser) {
+        return;
+      }
       if (document.visibilityState === "hidden") {
         const presence = "Away";
         await updatePresence(presence, currentUser);
@@ -74,16 +74,11 @@ export function AuthProvider({ children }) {
         const presence = "Online";
         await updatePresence(presence, currentUser);
       }
-    });
-    return () => subscribe;
+    };
   });
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const presence = "Online";
-        await updatePresence(presence, user);
-      }
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
       setLoading(false);
     });

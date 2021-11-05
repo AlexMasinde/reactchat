@@ -41,30 +41,32 @@ export default function Dashboard() {
 
   return (
     <div className={DashboardStyles.container}>
+      {console.log(viewChatList)}
       <div className={DashboardStyles.content}>
-        <div className={DashboardStyles.chatlist}>
-          <div className={DashboardStyles.header}>
-            <div className={DashboardStyles.userimage}>
-              <img
-                src={currentUser.photoURL ?? placeholder}
-                alt={currentUser.displayName}
-              />
+        {viewChatList && (
+          <div className={DashboardStyles.chatlist}>
+            <div className={DashboardStyles.header}>
+              <div className={DashboardStyles.userimage}>
+                <img
+                  src={currentUser.photoURL ?? placeholder}
+                  alt={currentUser.displayName}
+                />
+              </div>
+              <div className={DashboardStyles.select}>
+                <p>Messages</p>
+                <img
+                  onClick={() => toggleUserList()}
+                  src={addicon}
+                  alt="new chat"
+                />
+              </div>
             </div>
-            <div className={DashboardStyles.select}>
-              <p>Messages</p>
-              <img
-                onClick={() => toggleUserList()}
-                src={addicon}
-                alt="new chat"
-              />
-            </div>
-          </div>
-          {viewChatList && (
+
             <div className={DashboardStyles.list}>
               <ChatList />
             </div>
-          )}
-        </div>
+          </div>
+        )}
         {selectedChat && (
           <div>
             <ChatView />
@@ -87,7 +89,6 @@ export default function Dashboard() {
           <DeleteChat />
         </>
       )}
-      <button onClick={() => logout()}>logout</button>
     </div>
   );
 }

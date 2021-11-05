@@ -29,13 +29,33 @@
   line-height: 150%;
 }
 
-.username::before {
+.offline::before {
+  content: "";
+  display: inline-block;
+  width: 0.8em;
+  margin-right: 0.5em;
+  height: 0.8em;
+  background-color: #f56565;
+  border-radius: 50%;
+}
+
+.online::before {
   content: "";
   display: inline-block;
   width: 0.8em;
   margin-right: 0.5em;
   height: 0.8em;
   background-color: #68d391;
+  border-radius: 50%;
+}
+
+.away::before {
+  content: "";
+  display: inline-block;
+  width: 0.8em;
+  margin-right: 0.5em;
+  height: 0.8em;
+  background-color: #feebc8;
   border-radius: 50%;
 }
 

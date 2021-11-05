@@ -2,3 +2,9 @@
   max-height: calc(100vh - 111px);
   overflow-y: auto;
 }
+
+@media only screen and (max-width: 768px) {
+  .container {
+    max-height: none;
+  }
+}

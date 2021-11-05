@@ -35,6 +35,18 @@ export default function ChatListItem({ conversation }) {
     await markAsRead(conversation, currentUser);
   }
 
+  function status() {
+    if (user?.presence === "Online") {
+      return `${ChatListItemStyles.username} ${ChatListItemStyles.online}`;
+    } else if (user?.presence === "Offline") {
+      return `${ChatListItemStyles.username} ${ChatListItemStyles.offline}`;
+    } else {
+      return `${ChatListItemStyles.username} ${ChatListItemStyles.away}`;
+    }
+  }
+
+  const usernameClass = status();
+
   const readConversation =
     !lastMessage.read && lastMessage.sender !== currentUser.uid;
 
@@ -44,12 +56,12 @@ export default function ChatListItem({ conversation }) {
 
   const selected = selectedChat && conversation.uid === selectedChat.uid;
 
-  const containerStyles = selected
+  const containerClasses = selected
     ? `${ChatListItemStyles.container} ${ChatListItemStyles.selected}`
     : `${ChatListItemStyles.container}`;
 
   return (
-    <div onClick={() => selectChat()} className={containerStyles}>
+    <div onClick={() => selectChat()} className={containerClasses}>
       <div className={ChatListItemStyles.wrapper}>
         <div className={ChatListItemStyles.image}>
           <img
@@ -60,7 +72,7 @@ export default function ChatListItem({ conversation }) {
         </div>
         <div className={ChatListItemStyles.details}>
           <div className={ChatListItemStyles.user}>
-            <p className={ChatListItemStyles.username}>{user?.username}</p>
+            <p className={usernameClass}>{user?.username}</p>
           </div>
           <p className={messageClasses}>{message}</p>
         </div>
