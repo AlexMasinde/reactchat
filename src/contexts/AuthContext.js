@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import { auth, firebase } from "../firebase";
+import { auth, chats, firebase } from "../firebase";
+import updatePresence from "../utils/updatePresence";
 
 const AuthContext = createContext();
 
@@ -12,7 +13,7 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  async function userSignup(email, password) {
+  function userSignup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password);
   }
 
@@ -29,12 +30,60 @@ export function AuthProvider({ children }) {
     return auth.currentUser.delete();
   }
 
-  function userSignout() {
+  async function userSignout() {
+    const status = "Offline";
+    await updatePresence(status, currentUser);
     return auth.signOut();
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    if (!currentUser) {
+      return;
+    }
+    firebase
+      .database()
+      .ref(".info/connected")
+      .on("value", async (snapshot) => {
+        if (snapshot.val() == false) {
+          return;
+        }
+
+        await chats.users
+          .child(currentUser.uid)
+          .onDisconnect()
+          .update({ presence: "Offline", lastSeen: chats.timeStamp })
+          .then(async () => {
+            await chats.users
+              .child(currentUser.uid)
+              .update({ presence: "Online" });
+          });
+      });
+  });
+
+  useEffect(() => {
+    if (!currentUser) {
+      return;
+    }
+    console.log("window visibility hook ran");
+
+    const subscribe = (document.onvisibilitychange = async (e) => {
+      if (document.visibilityState === "hidden") {
+        const presence = "Away";
+        await updatePresence(presence, currentUser);
+      } else {
+        const presence = "Online";
+        await updatePresence(presence, currentUser);
+      }
+    });
+    return () => subscribe;
+  });
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        const presence = "Online";
+        await updatePresence(presence, user);
+      }
       setCurrentUser(user);
       setLoading(false);
     });

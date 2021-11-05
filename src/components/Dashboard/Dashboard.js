@@ -18,7 +18,7 @@ import DashboardStyles from "./Dashboard.module.css";
 
 export default function Dashboard() {
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const { currentUser } = useAuth();
+  const { currentUser, userSignout } = useAuth();
   const { selectedChat, showUserList, deleteChat, dispatch } = useChat();
   const viewChatList = showChatList(isMobile, selectedChat, showUserList);
 
@@ -33,6 +33,10 @@ export default function Dashboard() {
       type: "SHOW_USER_LIST",
       payload: !showUserList,
     });
+  }
+
+  function logout() {
+    userSignout();
   }
 
   return (
@@ -83,6 +87,7 @@ export default function Dashboard() {
           <DeleteChat />
         </>
       )}
+      <button onClick={() => logout()}>logout</button>
     </div>
   );
 }
