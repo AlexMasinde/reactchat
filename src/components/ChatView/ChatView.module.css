@@ -1,16 +1,22 @@
+.container {
+  width: 60em;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0 1.6em;
+}
+
 .userdetails {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 1.9em 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  margin-bottom: 2.5em;
+  padding: 2.4em 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .profilephoto > img {
   width: 4em;
   height: 4em;
   border-radius: 1em;
+  display: block;
 }
 
 .username {
@@ -22,7 +28,6 @@
 .status {
   font-weight: 600;
   font-size: 1.2rem;
-  line-height: 150%;
   opacity: 0.6;
 }
 
@@ -38,15 +43,19 @@
 
 .name {
   margin-left: 1.6em;
+  max-height: 4em;
 }
 
 .chatdisplay {
-  height: 40rem;
+  min-height: calc(100vh - 89px);
+  max-height: calc(100vh - 89px);
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .chatinput {
-  position: sticky;
-  bottom: 0;
-  z-index: 1;
+  padding: 1em;
+  width: 100%;
 }

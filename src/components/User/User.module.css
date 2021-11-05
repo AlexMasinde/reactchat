@@ -1,26 +1,10 @@
-.container {
-  display: flex;
-  align-items: center;
-}
-
 .image > img {
   height: 4em;
   width: 4em;
   border-radius: 1.2em;
 }
 
-.name {
-  font-weight: 600;
-  font-size: 1.4rem;
-  line-height: 150%;
-}
-
-.email {
-  font-size: 1.2rem;
-  line-height: 150%;
-  color: rgba(0, 0, 0, 0.4);
-}
-
-.details {
-  margin-left: 1.6rem;
+.image {
+  margin: 0;
+  padding: 0;
 }

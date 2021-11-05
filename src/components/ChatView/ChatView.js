@@ -51,9 +51,6 @@ export default function ChatView() {
             <p className={ChatViewStyles.status}>Online</p>
           </div>
         </div>
-        <div onClick={() => closeChat()}>
-          <p>Click to close</p>
-        </div>
       </div>
       <div id="chatdisplay" className={ChatViewStyles.chatdisplay}>
         {messages.map((message) => {

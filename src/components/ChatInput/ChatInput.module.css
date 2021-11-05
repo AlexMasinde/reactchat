@@ -3,6 +3,7 @@
   align-items: center;
   width: 100%;
   background: #ffffff;
+  justify-content: space-between;
 }
 
 .message {
@@ -10,6 +11,8 @@
   border-radius: 1.2em;
   padding: 1.3em 2em;
   display: flex;
+  justify-content: space-between;
+  width: 95%;
 }
 
 .message > img:hover,
@@ -26,6 +29,7 @@
 .message > input {
   outline: none;
   border: none;
+  width: calc(100% - 30px);
 }
 
 .sendicon {
@@ -35,5 +39,5 @@
 
 .message > img {
   width: 2em;
-  height: 2rem;
+  height: 2em;
 }

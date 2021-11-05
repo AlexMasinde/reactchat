@@ -50,19 +50,23 @@ export default function ChatListItem({ conversation }) {
 
   return (
     <div onClick={() => selectChat()} className={containerStyles}>
-      <div className={ChatListItemStyles.image}>
-        <img
-          src={user?.photo ?? placeholder}
-          alt="profile"
-          referrerPolicy="no-referrer"
-        />
-      </div>
-      <div className={ChatListItemStyles.details}>
-        <div className={ChatListItemStyles.user}>
-          <p className={ChatListItemStyles.username}>{user?.username}</p>
-          <p>{timeSent}</p>
+      <div className={ChatListItemStyles.wrapper}>
+        <div className={ChatListItemStyles.image}>
+          <img
+            src={user?.photo ?? placeholder}
+            alt="profile"
+            referrerPolicy="no-referrer"
+          />
         </div>
-        <p className={messageClasses}>{message}</p>
+        <div className={ChatListItemStyles.details}>
+          <div className={ChatListItemStyles.user}>
+            <p className={ChatListItemStyles.username}>{user?.username}</p>
+          </div>
+          <p className={messageClasses}>{message}</p>
+        </div>
+      </div>
+      <div className={ChatListItemStyles.timeleft}>
+        <p>{timeSent}</p>
       </div>
     </div>
   );

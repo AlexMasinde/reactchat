@@ -1,25 +1,44 @@
-.container {
-  padding: 2em;
+.content {
+  display: flex;
 }
+.chatlist {
+  min-width: 35em;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 2.4em 2.8em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.select > img,
+.userimage > img {
+  height: 4em;
+  width: 4em;
+  border-radius: 50%;
+  display: block;
+}
+
 .select {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1em 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  margin: 1.2em 0;
 }
 
 .select > p {
   font-weight: 600;
   font-size: 2rem;
-  line-height: 150%;
 }
 
 .select > img {
-  width: 4em;
-  height: 4em;
+  margin-left: 1em;
+  height: 2.5em;
+  width: 2.5em;
+  display: block;
 }
 
 .modalcontainer {
@@ -30,4 +49,9 @@
   top: 0;
   left: 0;
   z-index: 500;
+}
+
+.list {
+  padding: 1.2em 1.6em;
+  min-height: calc(100vh - 89px);
 }

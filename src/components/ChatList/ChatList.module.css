@@ -1,5 +1,4 @@
 .container {
-  min-height: calc(100vh - 111px);
   max-height: calc(100vh - 111px);
   overflow-y: auto;
 }

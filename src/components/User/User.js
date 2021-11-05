@@ -15,10 +15,6 @@ export default function User() {
           alt={currentUser.displayName}
         />
       </div>
-      <div className={UserStyles.details}>
-        <p className={UserStyles.name}>{currentUser.displayName}</p>
-        <p className={UserStyles.email}>{currentUser.email}</p>
-      </div>
     </div>
   );
 }
