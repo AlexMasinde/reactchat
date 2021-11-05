@@ -1,14 +1,13 @@
 .container {
   width: 60em;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 0 1.6em;
 }
 
 .userdetails {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 2.4em 0;
+  padding: 2.4em 1.6em;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
@@ -28,7 +27,6 @@
 .status {
   font-weight: 600;
   font-size: 1.2rem;
-  opacity: 0.6;
 }
 
 .status::before {
@@ -46,6 +44,10 @@
   max-height: 4em;
 }
 
+.name > p:last-child {
+  opacity: 0.6;
+}
+
 .chatdisplay {
   min-height: calc(100vh - 89px);
   max-height: calc(100vh - 89px);
@@ -53,11 +55,42 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  padding: 0 1.6em;
 }
 
 .chatinput {
-  padding: 1em;
+  margin: 1em 0;
   width: 100%;
+}
+
+.offline::before {
+  content: "";
+  display: inline-block;
+  width: 0.8em;
+  margin-right: 0.5em;
+  height: 0.8em;
+  background-color: #f56565;
+  border-radius: 50%;
+}
+
+.online::before {
+  content: "";
+  display: inline-block;
+  width: 0.8em;
+  margin-right: 0.5em;
+  height: 0.8em;
+  background-color: #68d391;
+  border-radius: 50%;
+}
+
+.away::before {
+  content: "";
+  display: inline-block;
+  width: 0.8em;
+  margin-right: 0.5em;
+  height: 0.8em;
+  background-color: #feebc8;
+  border-radius: 50%;
 }
 
 @media only screen and (max-width: 768px) {

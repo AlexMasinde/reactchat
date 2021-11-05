@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+
 import Input from "../Input/Input";
+import Button from "../Button/Button";
 
 import passwordicon from "../../icons/passwordicon.svg";
+import placeholder from "../../icons/avatar.png";
 
 import UserProfileStyles from "./UserProfile.module.css";
-import Button from "../Button/Button";
 
 export default function UserProfile() {
   const [loading, setLoading] = useState(false);
@@ -16,9 +18,6 @@ export default function UserProfile() {
   const [errors, setErrors] = useState({});
   const { uid } = useParams();
   const profileId = uid.split(":")[1];
-
-  const placeholderImage =
-    "https://firebasestorage.googleapis.com/v0/b/reactchat-62a7d.appspot.com/o/chatplaceholder.png?alt=media&token=e434ebe1-ed25-4b61-99de-e7dd78e9e5e3";
 
   function handlePassword(e) {
     if (errors.password) {
@@ -68,7 +67,7 @@ export default function UserProfile() {
     <div className={UserProfileStyles.container}>
       <div className={UserProfileStyles.photo}>
         <img
-          src={currentUser.photoUrl ?? placeholderImage}
+          src={currentUser.photoURL ?? placeholder}
           alt={currentUser.displayName ?? currentUser.email}
         />
       </div>
@@ -85,7 +84,7 @@ export default function UserProfile() {
       </div>
       {deleting && (
         <div className={UserProfileStyles.confirm}>
-          <p>Enter password to confirm</p>
+          <p>Enter password to continue</p>
           <form onSubmit={handleDelete}>
             <Input
               type="password"

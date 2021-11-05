@@ -15,6 +15,7 @@ import addicon from "../../icons/add.svg";
 import placeholder from "../../icons/avatar.png";
 
 import DashboardStyles from "./Dashboard.module.css";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -41,16 +42,17 @@ export default function Dashboard() {
 
   return (
     <div className={DashboardStyles.container}>
-      {console.log(viewChatList)}
       <div className={DashboardStyles.content}>
         {viewChatList && (
           <div className={DashboardStyles.chatlist}>
             <div className={DashboardStyles.header}>
               <div className={DashboardStyles.userimage}>
-                <img
-                  src={currentUser.photoURL ?? placeholder}
-                  alt={currentUser.displayName}
-                />
+                <Link to={`/userprofile/:${currentUser.uid}`}>
+                  <img
+                    src={currentUser.photoURL ?? placeholder}
+                    alt={currentUser.displayName}
+                  />
+                </Link>
               </div>
               <div className={DashboardStyles.select}>
                 <p>Messages</p>

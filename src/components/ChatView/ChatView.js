@@ -29,6 +29,9 @@ export default function ChatView() {
     }
   });
 
+  const options = { month: "long", day: "numeric" };
+  const lastSeen = new Date(chatUser?.lastSeen).toLocaleString("en-Uk");
+
   function closeChat() {
     dispatch({
       type: "SET_SELECTED_CHAT",
@@ -36,8 +39,32 @@ export default function ChatView() {
     });
   }
 
+  function status() {
+    if (chatUser?.presence === "Online") {
+      return `${ChatViewStyles.status} ${ChatViewStyles.online}`;
+    } else if (chatUser?.presence === "Offline") {
+      return `${ChatViewStyles.status} ${ChatViewStyles.offline}`;
+    } else {
+      return `${ChatViewStyles.status} ${ChatViewStyles.away}`;
+    }
+  }
+
+  function text() {
+    if (chatUser?.presence === "Online") {
+      return "Online";
+    } else if (chatUser?.presence === "Away") {
+      return "Away";
+    } else {
+      return `Last Seen: ${lastSeen}`;
+    }
+  }
+
+  const statusText = text();
+  const statusClass = status();
+
   return (
     <div className={ChatViewStyles.container}>
+      {console.log(lastSeen)}
       <div className={ChatViewStyles.header}>
         <div className={ChatViewStyles.userdetails}>
           <div className={ChatViewStyles.profilephoto}>
@@ -48,7 +75,7 @@ export default function ChatView() {
           </div>
           <div className={ChatViewStyles.name}>
             <p className={ChatViewStyles.username}>{chatUser?.username}</p>
-            <p className={ChatViewStyles.status}>Online</p>
+            <p className={statusClass}>{statusText}</p>
           </div>
         </div>
       </div>

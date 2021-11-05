@@ -4,10 +4,10 @@ import { chats } from "../firebase";
 export default function useChatMessages(selectedChat) {
   const [messages, setMessages] = useState([]);
   useEffect(() => {
+    setMessages([]);
     if (!selectedChat.conversationStartedAt) {
       return;
     }
-    setMessages([]);
     const ref = chats.conversations
       .child(selectedChat.uid)
       .child("messages")
