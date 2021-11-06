@@ -51,16 +51,22 @@
 .chatdisplay {
   min-height: calc(100vh - 89px);
   max-height: calc(100vh - 89px);
-  overflow: auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   padding: 0 1.6em;
+  overflow-y: auto;
+}
+
+.chatdisplay > div:first-child {
+  margin-top: auto;
 }
 
 .chatinput {
-  margin: 1em 0;
+  padding: 1em 0;
   width: 100%;
+  position: sticky;
+  bottom: 0;
+  background-color: #ffffff;
 }
 
 .offline::before {

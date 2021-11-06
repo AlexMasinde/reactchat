@@ -120,20 +120,9 @@ export default function ChatInput() {
         .child("messages")
         .child(Math.floor(Date.now() + Math.random()))
         .set(newMesage);
+      setMessage("");
     } catch (err) {
       console.log(err);
-    }
-  }
-
-  async function handleSend() {
-    try {
-      setLoading(true);
-      setError();
-      await sendMessage();
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
     }
   }
 

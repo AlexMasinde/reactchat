@@ -9,10 +9,11 @@ import passwordicon from "../../icons/passwordicon.svg";
 import placeholder from "../../icons/avatar.png";
 
 import UserProfileStyles from "./UserProfile.module.css";
+import { auth, chats, firebase } from "../../firebase";
 
 export default function UserProfile() {
   const [loading, setLoading] = useState(false);
-  const { currentUser, deleteAccount, userLogin } = useAuth();
+  const { currentUser } = useAuth();
   const [deleting, setDeleting] = useState(false);
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -26,8 +27,53 @@ export default function UserProfile() {
     setPassword(e.target.value);
   }
 
-  function triggerDelete() {
-    setDeleting(!deleting);
+  async function triggerDelete() {
+    if (!deleting) {
+      setLoading(true);
+      const providers = await auth.fetchProvidersForEmail(currentUser.email);
+      if (providers[0] === "google.com") {
+        try {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          await auth.currentUser.reauthenticateWithPopup(provider);
+          await chats.users.child(currentUser.uid).remove();
+          await auth.currentUser.delete();
+        } catch (err) {
+          setLoading(false);
+          switch (err.code) {
+            case "auth/cancelled-popup-request":
+              return setErrors({
+                ...errors,
+                googleAuth: "Request Already Sent",
+              });
+            case "auth/popup-blocked":
+              return setErrors({
+                ...errors,
+                googleAuth: "Popup blocked by browser",
+              });
+            case "auth/popup-closed-by-user":
+              return setErrors({
+                ...errors,
+                googleAuth: "Popup closed by user",
+              });
+            case "auth/user-mismatch":
+              return setErrors({
+                ...errors,
+                googleAuth: "Wrong user selected",
+              });
+            default:
+              return setErrors({
+                ...errors,
+                googleAuth: "Unknown Error! Try again",
+              });
+          }
+        }
+      } else {
+        setDeleting(true);
+      }
+    } else {
+      setDeleting(false);
+    }
+    setLoading(false);
     setErrors({});
   }
 
@@ -45,20 +91,30 @@ export default function UserProfile() {
 
     try {
       setLoading(true);
-      await userLogin(currentUser.email, password);
-      await deleteAccount();
+      await auth.currentUser.reauthenticateWithCredential(
+        firebase.auth.EmailAuthProvider.credential(currentUser.email, password)
+      );
+      await chats.users.child(currentUser.uid).remove();
+      await auth.currentUser.delete();
       setLoading(false);
     } catch (err) {
-      if (err.code === "auth/wrong-password") {
-        setErrors({ password: "Wrong Password" });
-        setLoading(false);
-      } else if (err.code === "auth/too-many-requests") {
-        setErrors({ password: "Too many failed attempts" });
-        setLoading(false);
-      } else {
-        setErrors({ password: "Could not Delete! Try again" });
-        console.log(err);
-        setLoading(false);
+      setLoading(false);
+      switch (err.code) {
+        case "auth/wrong-password":
+          return setErrors({
+            ...errors,
+            password: "Wrong password",
+          });
+        case "auth/user-not-found":
+          return setErrors({
+            ...errors,
+            password: "User not found",
+          });
+        default:
+          return setErrors({
+            ...errors,
+            password: "Unknown Error! Try again",
+          });
       }
     }
   }

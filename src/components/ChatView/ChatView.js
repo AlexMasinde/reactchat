@@ -29,7 +29,6 @@ export default function ChatView() {
     }
   });
 
-  const options = { month: "long", day: "numeric" };
   const lastSeen = new Date(chatUser?.lastSeen).toLocaleString("en-Uk");
 
   function closeChat() {
