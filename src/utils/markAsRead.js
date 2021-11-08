@@ -3,6 +3,7 @@ export default async function markAsRead(selectedChat, currentUser) {
   if (!selectedChat) {
     return;
   }
+
   const { lastMessage } = selectedChat;
 
   if (!lastMessage.read && lastMessage.sender !== currentUser.uid) {

@@ -9,15 +9,24 @@ import ChatInput from "../ChatInput/ChatInput";
 import useChatMessages from "../../Hooks/useChatMessages";
 
 import placeholder from "../../icons/avatar.png";
+import noUser from "../../icons/nouser.svg";
 
 import ChatViewStyles from "./ChatView.module.css";
 
 export default function ChatView() {
   const { allUsers, selectedChat, dispatch } = useChat();
   const messages = useChatMessages(selectedChat);
-  const chatUser = allUsers.filter(
+  const otherUser = allUsers.filter(
     (user) => user.uid === selectedChat.conversationWith
-  )[0];
+  );
+
+  const deletedUser = {
+    uid: "deleted-user",
+    username: "Deleted User",
+    photo: noUser,
+  };
+
+  const chatUser = otherUser.length > 0 ? otherUser[0] : deletedUser;
 
   useEffect(() => {
     const element = document.getElementById("chatdisplay");
@@ -90,7 +99,7 @@ export default function ChatView() {
           );
         })}
         <div className={ChatViewStyles.chatinput}>
-          <ChatInput />
+          <ChatInput deletedUser={deletedUser} />
         </div>
       </div>
     </div>

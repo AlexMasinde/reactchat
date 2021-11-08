@@ -42,3 +42,8 @@
   width: 2em;
   height: 2em;
 }
+
+.error {
+  color: red;
+  font-size: 1.2rem;
+}

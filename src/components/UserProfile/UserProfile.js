@@ -29,6 +29,7 @@ export default function UserProfile() {
 
   async function triggerDelete() {
     if (!deleting) {
+      setErrors({});
       setLoading(true);
       const providers = await auth.fetchProvidersForEmail(currentUser.email);
       if (providers[0] === "google.com") {
@@ -74,7 +75,6 @@ export default function UserProfile() {
       setDeleting(false);
     }
     setLoading(false);
-    setErrors({});
   }
 
   async function handleDelete(e) {
@@ -131,11 +131,16 @@ export default function UserProfile() {
         {currentUser.displayName && <p>{currentUser.displayName}</p>}
         <p>{currentUser.email}</p>
         {profileId === currentUser.uid && (
-          <Button
-            onClick={() => triggerDelete()}
-            loading={loading}
-            text={deleting ? "Undo" : "Delete Account"}
-          />
+          <>
+            <Button
+              onClick={() => triggerDelete()}
+              loading={loading}
+              text={deleting ? "Undo" : "Delete Account"}
+            />
+            {errors && errors.googleAuth && (
+              <p className={UserProfileStyles.error}>{errors.googleAuth}</p>
+            )}
+          </>
         )}
       </div>
       {deleting && (
@@ -150,7 +155,9 @@ export default function UserProfile() {
               onChange={handlePassword}
             />
             <Button type="submit" loading={loading} text="Confirm" />
-            {errors && errors.password && <p>{errors.password}</p>}
+            {errors && errors.password && (
+              <p className={UserProfileStyles.error}>{errors.password}</p>
+            )}
           </form>
         </div>
       )}

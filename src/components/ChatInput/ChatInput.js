@@ -11,7 +11,7 @@ import sendicon from "../../icons/sendicon.svg";
 
 import ChatInputStyles from "./ChatInput.module.css";
 
-export default function ChatInput() {
+export default function ChatInput({ deletedUser }) {
   const { currentUser } = useAuth();
   const { selectedUser, conversations, selectedChat, dispatch, deleteChat } =
     useChat();
@@ -19,13 +19,21 @@ export default function ChatInput() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
 
+  const deleted = deletedUser.uid === currentUser.uid;
+
   function handleMessage(e) {
     setMessage(e.target.value);
   }
 
   async function sendMessage() {
-    if (!selectedUser || message.trim() === "") {
+    if (loading || message.trim() === "") {
+      console.log("loading or empty");
       return;
+    }
+
+    if (deleted) {
+      console.log("deleted");
+      return setError("You can't send messages to deleted users");
     }
 
     const sender = currentUser.uid;
@@ -38,6 +46,8 @@ export default function ChatInput() {
     );
 
     try {
+      setError("");
+      setLoading(true);
       const chatExists = await chats.users
         .child(receiver)
         .child(`conversations/${chatTitle}`)
@@ -121,7 +131,10 @@ export default function ChatInput() {
         .child(Math.floor(Date.now() + Math.random()))
         .set(newMesage);
       setMessage("");
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
+      setError("Could not send! Try again");
       console.log(err);
     }
   }
@@ -144,18 +157,21 @@ export default function ChatInput() {
   }
 
   return (
-    <div className={ChatInputStyles.container}>
-      <img onClick={() => handleDelete()} src={deleteicon} alt="delete" />
-      <div className={ChatInputStyles.message}>
-        <input
-          onChange={handleMessage}
-          onFocus={handleFocus}
-          onKeyUp={handleKeyUp}
-          value={message}
-          type="text"
-        />
-        <img onClick={() => sendMessage()} src={sendicon} alt="send" />
+    <>
+      <div className={ChatInputStyles.container}>
+        <img onClick={() => handleDelete()} src={deleteicon} alt="delete" />
+        <div className={ChatInputStyles.message}>
+          <input
+            onChange={handleMessage}
+            onFocus={handleFocus}
+            onKeyUp={handleKeyUp}
+            value={message}
+            type="text"
+          />
+          <img onClick={() => sendMessage()} src={sendicon} alt="send" />
+        </div>
       </div>
-    </div>
+      {error && <p className={ChatInputStyles.error}>{error}</p>}
+    </>
   );
 }
