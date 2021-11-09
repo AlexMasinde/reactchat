@@ -71,8 +71,7 @@ export function AuthProvider({ children }) {
         const presence = "Away";
         await updatePresence(presence, currentUser);
       } else {
-        const presence = "Online";
-        await updatePresence(presence, currentUser);
+        await chats.users.child(currentUser.uid).update({ presence: "Online" });
       }
     };
   });

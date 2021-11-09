@@ -84,9 +84,9 @@ export default function Login() {
   return (
     <div className={LoginStyles.container}>
       <div className={LoginStyles.formcontainer}>
-        <h1>Welcome back!</h1>
+        <h1>Log in</h1>
         <p className={authError ? LoginStyles.red : ""}>
-          {authError ? errors.auth : "Sign in to get the most out of IB"}
+          {authError ? errors.auth : "Enter your email and password below"}
         </p>
         <form onSubmit={(e) => handleLogin(e)}>
           <Input

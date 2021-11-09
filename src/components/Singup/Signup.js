@@ -142,9 +142,9 @@ export default function Singup() {
   return (
     <div className={SignupStyles.container}>
       <div className={SignupStyles.formcontainer}>
-        <h1>Welcome!</h1>
+        <h1>Register!</h1>
         <p className={authError ? SignupStyles.red : ""}>
-          {authError ? errors.auth : "Sign up to get the most out of IB"}
+          {authError ? errors.auth : "Use your email or Google account"}
         </p>
         <form onSubmit={(e) => handleSignup(e)}>
           <Input

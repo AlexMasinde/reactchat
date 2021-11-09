@@ -36,11 +36,11 @@ form > p {
 .login > a {
   display: inline-block;
   text-decoration: none;
-  color: rgb(159, 109, 207);
+  color: #615ef0;
 }
 
 .login > a:visited {
-  color: rgb(159, 109, 207);
+  color: #615ef0;
 }
 
 .google {

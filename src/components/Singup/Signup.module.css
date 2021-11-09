@@ -45,8 +45,8 @@ form > p {
 }
 
 .file > label > p {
-  color: #000000;
-  border: 1px solid #000000;
+  color: #615ef0;
+  border: 1px solid #615ef0;
   border-radius: 1rem;
   font-size: 1.6rem;
   transition: 0.5s;
@@ -54,7 +54,7 @@ form > p {
 }
 
 .file > label > p:hover {
-  background-color: #000000;
+  background-color: #615ef0;
   color: #ffffff;
   cursor: pointer;
 }
@@ -72,11 +72,11 @@ form > p {
 .login > a {
   display: inline-block;
   text-decoration: none;
-  color: rgb(159, 109, 207);
+  color: #615ef0;
 }
 
 .login > a:visited {
-  color: rgb(159, 109, 207);
+  color: #615ef0;
 }
 
 .google {
