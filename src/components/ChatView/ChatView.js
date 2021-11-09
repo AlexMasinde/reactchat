@@ -12,6 +12,7 @@ import placeholder from "../../icons/avatar.png";
 import noUser from "../../icons/nouser.svg";
 
 import ChatViewStyles from "./ChatView.module.css";
+import Loading from "../Loading/Loading";
 
 export default function ChatView() {
   const { allUsers, selectedChat, dispatch } = useChat();
@@ -19,6 +20,8 @@ export default function ChatView() {
   const otherUser = allUsers.filter(
     (user) => user.uid === selectedChat.conversationWith
   );
+
+  const loading = messages.length === 0;
 
   const deletedUser = {
     uid: "deleted-user",
@@ -72,7 +75,6 @@ export default function ChatView() {
 
   return (
     <div className={ChatViewStyles.container}>
-      {console.log(lastSeen)}
       <div className={ChatViewStyles.header}>
         <div className={ChatViewStyles.userdetails}>
           <div className={ChatViewStyles.profilephoto}>
@@ -87,21 +89,28 @@ export default function ChatView() {
           </div>
         </div>
       </div>
-      <div id="chatdisplay" className={ChatViewStyles.chatdisplay}>
-        {messages.map((message) => {
-          return (
-            <Message
-              key={shortid()}
-              message={message}
-              chatUser={chatUser}
-              allMessages={messages}
-            />
-          );
-        })}
-        <div className={ChatViewStyles.chatinput}>
-          <ChatInput deletedUser={deletedUser} />
+      {loading && (
+        <div className={ChatViewStyles.loading}>
+          <Loading />
         </div>
-      </div>
+      )}
+      {!loading && (
+        <div id="chatdisplay" className={ChatViewStyles.chatdisplay}>
+          {messages.map((message) => {
+            return (
+              <Message
+                key={shortid()}
+                message={message}
+                chatUser={chatUser}
+                allMessages={messages}
+              />
+            );
+          })}
+          <div className={ChatViewStyles.chatinput}>
+            <ChatInput deletedUser={deletedUser} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -54,13 +54,12 @@ export default function Dashboard() {
                   />
                 </Link>
               </div>
-              <div className={DashboardStyles.select}>
-                <p>Messages</p>
-                <img
-                  onClick={() => toggleUserList()}
-                  src={addicon}
-                  alt="new chat"
-                />
+              <div
+                onClick={() => toggleUserList()}
+                className={DashboardStyles.select}
+              >
+                <p>New</p>
+                <img src={addicon} alt="new chat" />
               </div>
             </div>
 

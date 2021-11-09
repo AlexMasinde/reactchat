@@ -45,8 +45,18 @@
   max-height: 4em;
 }
 
+.loading,
 .chatdisplay {
   min-height: calc(100vh - 89px);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chatdisplay {
   max-height: calc(100vh - 89px);
   display: flex;
   flex-direction: column;
