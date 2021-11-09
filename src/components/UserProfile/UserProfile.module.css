@@ -45,3 +45,11 @@
   font-size: 1.2rem !important;
   font-weight: 400 !important;
 }
+
+.deleteaccount {
+  margin-bottom: 1.4em;
+}
+
+.deleteaccount > button {
+  background-color: #f56565;
+}

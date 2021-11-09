@@ -119,6 +119,21 @@ export default function UserProfile() {
     }
   }
 
+  async function handleLogout() {
+    try {
+      setLoading(true);
+      await auth.signOut();
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      setErrors({
+        ...errors,
+        logout: "Unknown Error! Try again",
+      });
+      console.log(err);
+    }
+  }
+
   return (
     <div className={UserProfileStyles.container}>
       <div className={UserProfileStyles.photo}>
@@ -132,14 +147,27 @@ export default function UserProfile() {
         <p>{currentUser.email}</p>
         {profileId === currentUser.uid && (
           <>
-            <Button
-              onClick={() => triggerDelete()}
-              loading={loading}
-              text={deleting ? "Undo" : "Delete Account"}
-            />
-            {errors && errors.googleAuth && (
-              <p className={UserProfileStyles.error}>{errors.googleAuth}</p>
-            )}
+            <div className={UserProfileStyles.deleteaccount}>
+              <Button
+                onClick={() => triggerDelete()}
+                loading={loading}
+                text={deleting ? "Undo" : "Delete Account"}
+              />
+              {errors && errors.googleAuth && (
+                <p className={UserProfileStyles.error}>{errors.googleAuth}</p>
+              )}
+            </div>
+            <div className={UserProfileStyles.logout}>
+              <Button
+                onClick={(e) => handleLogout(e)}
+                loading={loading}
+                text="Logout"
+                disabled={loading}
+              />
+              {errors && errors.logout && (
+                <p className={UserProfileStyles.error}>{errors.logout}</p>
+              )}
+            </div>
           </>
         )}
       </div>
