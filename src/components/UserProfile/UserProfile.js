@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { captureException } from "@sentry/minimal";
+
 import { useAuth } from "../../contexts/AuthContext";
 
 import Input from "../Input/Input";
@@ -63,6 +65,7 @@ export default function UserProfile() {
                 googleAuth: "Wrong user selected",
               });
             default:
+              captureException(err);
               return setErrors({
                 ...errors,
                 googleAuth: "Unknown Error! Try again",
