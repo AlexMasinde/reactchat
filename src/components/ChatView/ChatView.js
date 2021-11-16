@@ -2,11 +2,10 @@ import React, { useEffect } from "react";
 import shortid from "shortid";
 
 import { useChat } from "../../contexts/ChatContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 import Message from "../Message/Message";
 import ChatInput from "../ChatInput/ChatInput";
-
-import useChatMessages from "../../Hooks/useChatMessages";
 
 import placeholder from "../../icons/avatar.png";
 import noUser from "../../icons/nouser.svg";
@@ -15,8 +14,8 @@ import ChatViewStyles from "./ChatView.module.css";
 import Loading from "../Loading/Loading";
 
 export default function ChatView() {
-  const { allUsers, selectedChat, dispatch } = useChat();
-  const messages = useChatMessages(selectedChat);
+  const { currentUser } = useAuth();
+  const { allUsers, selectedChat, messages } = useChat();
   const otherUser = allUsers.filter(
     (user) => user.uid === selectedChat.conversationWith
   );
@@ -33,6 +32,7 @@ export default function ChatView() {
 
   useEffect(() => {
     const element = document.getElementById("chatdisplay");
+    console.log(element);
     if (element) {
       element.scrollTo({
         top: element.scrollHeight,
@@ -42,13 +42,6 @@ export default function ChatView() {
   });
 
   const lastSeen = new Date(chatUser?.lastSeen).toLocaleString("en-Uk");
-
-  function closeChat() {
-    dispatch({
-      type: "SET_SELECTED_CHAT",
-      payload: null,
-    });
-  }
 
   function status() {
     if (chatUser?.presence === "Online") {
@@ -103,6 +96,7 @@ export default function ChatView() {
                 message={message}
                 chatUser={chatUser}
                 allMessages={messages}
+                currentUser={currentUser}
               />
             );
           })}

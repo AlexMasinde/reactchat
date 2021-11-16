@@ -6,8 +6,12 @@ import showProfilePicture from "../../utils/showProfilePicture";
 
 import MessageStyles from "./Message.module.css";
 
-export default function Message({ message, chatUser, allMessages }) {
-  const { currentUser } = useAuth();
+export default function Message({
+  message,
+  chatUser,
+  allMessages,
+  currentUser,
+}) {
   const showMessagePicture = showProfilePicture(message, allMessages);
 
   const imageSource =
