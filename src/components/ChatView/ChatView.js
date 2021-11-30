@@ -32,7 +32,6 @@ export default function ChatView() {
 
   useEffect(() => {
     const element = document.getElementById("chatdisplay");
-    console.log(element);
     if (element) {
       element.scrollTo({
         top: element.scrollHeight,

@@ -32,18 +32,18 @@ function chatReducer(state, action) {
   }
 }
 
-export function ChatContextProvider({ children, testProps }) {
-  const initialState = {
-    allUsers: testProps.allUsers ?? [],
-    chatList: testProps.chatList ?? [],
-    conversations: testProps.conversations ?? [],
-    selectedChat: testProps.selectedChat ?? null,
-    selectedUser: testProps.selectedUser ?? {},
-    messages: testProps.message ?? [],
-    showUserList: testProps.showUserList ?? false,
-    deleteChat: testProps.deleteChat ?? false,
-  };
+const initialState = {
+  allUsers: [],
+  chatList: [],
+  conversations: [],
+  selectedChat: null,
+  selectedUser: {},
+  messages: [],
+  showUserList: false,
+  deleteChat: false,
+};
 
+export function ChatContextProvider({ children }) {
   const [state, dispatch] = useReducer(chatReducer, initialState);
   const { selectedChat } = state;
   const { currentUser } = useAuth();
