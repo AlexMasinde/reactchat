@@ -24,6 +24,8 @@ function chatReducer(state, action) {
       return { ...state, showUserList: action.payload };
     case "DELETE_CHAT":
       return { ...state, deleteChat: action.payload };
+    case "SET_MESSAGES":
+      return { ...state, messages: action.payload };
     default: {
       return state;
     }
@@ -36,15 +38,44 @@ const initialState = {
   conversations: [],
   selectedChat: null,
   selectedUser: {},
-  testObject: null,
+  messages: [],
   showUserList: false,
   deleteChat: false,
 };
 
 export function ChatContextProvider({ children }) {
   const [state, dispatch] = useReducer(chatReducer, initialState);
+  const { selectedChat } = state;
   const { currentUser } = useAuth();
 
+  //fetches all messages for a particular chat, only runs when a user selects a different chat
+  useEffect(() => {
+    let allMessages = [];
+    dispatch({
+      type: "SET_MESSAGES",
+      payload: [],
+    });
+    if (!selectedChat || !selectedChat.conversationStartedAt) {
+      return;
+    }
+    const ref = chats.conversations
+      .child(selectedChat.uid)
+      .child("messages")
+      .orderByChild("sentAt")
+      .startAt(selectedChat.conversationStartedAt);
+    const subscribe = ref.on("child_added", (dataSnapshot) => {
+      const message = dataSnapshot.val();
+      const uid = dataSnapshot.key;
+      allMessages = [...allMessages, { ...message, uid }];
+      dispatch({
+        type: "SET_MESSAGES",
+        payload: allMessages,
+      });
+    });
+    return () => ref.off("child_added", subscribe);
+  }, [selectedChat]);
+
+  //gets all the users in the application
   useEffect(() => {
     if (!currentUser) {
       return;
@@ -74,6 +105,7 @@ export function ChatContextProvider({ children }) {
     return () => chats.users.off("value", subscribe);
   }, [currentUser]);
 
+  //gets all the conversations that the current user is engaged in
   useEffect(() => {
     if (!currentUser) {
       return;
@@ -111,13 +143,7 @@ export function ChatContextProvider({ children }) {
   }, [currentUser]);
 
   const value = {
-    chatList: state.chatList,
-    conversations: state.conversations,
-    selectedChat: state.selectedChat,
-    selectedUser: state.selectedUser,
-    allUsers: state.allUsers,
-    showUserList: state.showUserList,
-    deleteChat: state.deleteChat,
+    ...state,
     dispatch,
   };
 

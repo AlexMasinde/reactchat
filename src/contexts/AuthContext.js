@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
+import Loading from "../components/Loading/Loading";
+
 import { auth, chats, firebase } from "../firebase";
 import updatePresence from "../utils/updatePresence";
 
@@ -97,7 +99,11 @@ export function AuthProvider({ children }) {
 
   return (
     <>
-      {loading && <div>Loading</div>}
+      {loading && (
+        <div className="loading-container">
+          <Loading />
+        </div>
+      )}
       {!loading && (
         <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
       )}

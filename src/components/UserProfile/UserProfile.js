@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { captureException } from "@sentry/minimal";
+
 import { useAuth } from "../../contexts/AuthContext";
 
 import Input from "../Input/Input";
@@ -7,6 +9,7 @@ import Button from "../Button/Button";
 
 import passwordicon from "../../icons/passwordicon.svg";
 import placeholder from "../../icons/avatar.png";
+import logo from "../../icons/logo.svg";
 
 import UserProfileStyles from "./UserProfile.module.css";
 import { auth, chats, firebase } from "../../firebase";
@@ -62,6 +65,7 @@ export default function UserProfile() {
                 googleAuth: "Wrong user selected",
               });
             default:
+              captureException(err);
               return setErrors({
                 ...errors,
                 googleAuth: "Unknown Error! Try again",
@@ -143,6 +147,12 @@ export default function UserProfile() {
         />
       </div>
       <div className={UserProfileStyles.details}>
+        <Link to="/">
+          <p className={UserProfileStyles.home}>
+            <img src={logo} alt="home" />
+            <span>Home</span>
+          </p>
+        </Link>
         {currentUser.displayName && <p>{currentUser.displayName}</p>}
         <p>{currentUser.email}</p>
         {profileId === currentUser.uid && (

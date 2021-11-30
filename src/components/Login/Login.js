@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { captureException } from "@sentry/react";
 
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -37,7 +38,6 @@ export default function Login() {
     if (errors) {
       errors.password = "";
     }
-    console.log(password);
   }
 
   async function handleLogin(e) {
@@ -55,14 +55,22 @@ export default function Login() {
       setLoading(false);
       history.push("/");
     } catch (err) {
-      console.log(err);
-      if (err.code === "auth/user-not-found") {
-        setErrors({ ...errors, auth: "User not found" });
-      }
-      if (err.code === "auth/wrong-password") {
-        setErrors({ ...errors, auth: "Wrong password" });
-      }
       setLoading(false);
+      switch (err.code) {
+        case "auth/user-not-found":
+          return setErrors({ ...errors, auth: "User not found" });
+        case "auth/invalid-email":
+          return setErrors({ ...errors, auth: "Invalid email" });
+        case "auth/user-disabled":
+          return setErrors({ ...errors, auth: "User disabled" });
+        case "auth/wrong-password":
+          return setErrors({ ...errors, auth: "Wrong password" });
+        case "auth/too-many-requests":
+          return setErrors({ ...errors, auth: "Too many failed requests" });
+        default:
+          captureException(err);
+          return setErrors({ ...errors, auth: "Something went wrong" });
+      }
     }
   }
 

@@ -41,6 +41,10 @@
   display: block;
 }
 
+.select:hover {
+  cursor: pointer;
+}
+
 .modalcontainer {
   background: rgba(0, 0, 0, 0.2);
   width: 100vw;

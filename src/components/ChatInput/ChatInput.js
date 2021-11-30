@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { captureException } from "@sentry/browser";
 
 import { useAuth } from "../../contexts/AuthContext";
 import { useChat } from "../../contexts/ChatContext";
@@ -135,7 +136,7 @@ export default function ChatInput({ deletedUser }) {
     } catch (err) {
       setLoading(false);
       setError("Could not send! Try again");
-      console.log(err);
+      captureException(err);
     }
   }
 

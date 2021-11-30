@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { captureException } from "@sentry/react";
 import { Link, useHistory } from "react-router-dom";
 
 import { useAuth } from "../../contexts/AuthContext";
@@ -16,6 +17,7 @@ import WithGoogle from "../WithGoogle/WithGoogle";
 
 import SignupStyles from "./Signup.module.css";
 import googleSignin from "../../utils/googleSignin";
+import { withSentryRouting } from "@sentry/react";
 
 export default function Singup() {
   const { userSignup, withGoogle } = useAuth();
@@ -117,10 +119,18 @@ export default function Singup() {
       setLoading(false);
       history.push("/");
     } catch (err) {
-      if (err.code === "auth/email-already-in-use")
-        setErrors({ auth: err.message });
-      console.log(err);
       setLoading(false);
+      switch (err.code) {
+        case "auth/email-already-in-use":
+          return setErrors({ ...errors, email: "Email already in use" });
+        case "auth/invalid-email":
+          return setErrors({ ...errors, email: "Invalid email" });
+        case "auth/weak-password":
+          return setErrors({ ...errors, password: "Password is too weak" });
+        default:
+          captureException(err);
+          return setErrors({ ...errors, auth: "Something went wrong" });
+      }
     }
   }
 
