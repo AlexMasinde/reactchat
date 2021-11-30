@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { captureException } from "@sentry/minimal";
 
+import { auth, chats, firebase } from "../../firebase";
+
 import { useAuth } from "../../contexts/AuthContext";
+
+import googleProviderErrors from "../../utils/googleProviderErrors";
 
 import Input from "../Input/Input";
 import Button from "../Button/Button";
@@ -12,7 +16,6 @@ import placeholder from "../../icons/avatar.png";
 import logo from "../../icons/logo.svg";
 
 import UserProfileStyles from "./UserProfile.module.css";
-import { auth, chats, firebase } from "../../firebase";
 
 export default function UserProfile() {
   const [loading, setLoading] = useState(false);
@@ -43,34 +46,14 @@ export default function UserProfile() {
           await auth.currentUser.delete();
         } catch (err) {
           setLoading(false);
-          switch (err.code) {
-            case "auth/cancelled-popup-request":
-              return setErrors({
-                ...errors,
-                googleAuth: "Request Already Sent",
-              });
-            case "auth/popup-blocked":
-              return setErrors({
-                ...errors,
-                googleAuth: "Popup blocked by browser",
-              });
-            case "auth/popup-closed-by-user":
-              return setErrors({
-                ...errors,
-                googleAuth: "Popup closed by user",
-              });
-            case "auth/user-mismatch":
-              return setErrors({
-                ...errors,
-                googleAuth: "Wrong user selected",
-              });
-            default:
-              captureException(err);
-              return setErrors({
-                ...errors,
-                googleAuth: "Unknown Error! Try again",
-              });
-          }
+
+          const providerErrors = googleProviderErrors(
+            err,
+            errors,
+            captureException
+          );
+
+          setErrors(providerErrors);
         }
       } else {
         setDeleting(true);

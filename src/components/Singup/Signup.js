@@ -6,6 +6,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { auth, storage, chats } from "../../firebase";
 
 import { validateSingup } from "../../utils/validate";
+import googleProviderErrors from "../../utils/googleProviderErrors";
 
 import emailicon from "../../icons/emailicon.svg";
 import passwordicon from "../../icons/passwordicon.svg";
@@ -17,10 +18,9 @@ import WithGoogle from "../WithGoogle/WithGoogle";
 
 import SignupStyles from "./Signup.module.css";
 import googleSignin from "../../utils/googleSignin";
-import { withSentryRouting } from "@sentry/react";
 
 export default function Singup() {
-  const { userSignup, withGoogle } = useAuth();
+  const { userSignup, withGoogle, currentUser } = useAuth();
   const history = useHistory();
 
   const [userDetails, setUserDetails] = useState({
@@ -144,9 +144,20 @@ export default function Singup() {
       setLoading(false);
       history.push("/");
     } catch (err) {
-      console.log(err);
       setLoading(false);
+
+      const providerErrors = googleProviderErrors(
+        err,
+        errors,
+        captureException
+      );
+
+      setErrors(providerErrors);
     }
+  }
+
+  if (currentUser) {
+    history.push("/");
   }
 
   return (
@@ -193,6 +204,7 @@ export default function Singup() {
         <div onClick={() => handleGoogle()} className={SignupStyles.google}>
           <WithGoogle text="Sign in with Google" loading={loading} />
         </div>
+        {errors && errors.googleAuth && <p>{errors.googleAuth}</p>}
         <div>
           <p className={SignupStyles.login}>
             Don't have an account? &nbsp;

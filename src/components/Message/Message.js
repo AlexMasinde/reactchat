@@ -1,5 +1,4 @@
 import React from "react";
-import { useAuth } from "../../contexts/AuthContext";
 
 import placeholder from "../../icons/avatar.png";
 import showProfilePicture from "../../utils/showProfilePicture";

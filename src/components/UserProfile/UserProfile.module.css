@@ -16,7 +16,7 @@
   border-radius: 0.8em;
 }
 
-a > p,
+.details > a > p,
 .details > p {
   font-size: 2rem;
   line-height: 150%;

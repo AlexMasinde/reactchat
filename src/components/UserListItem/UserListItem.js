@@ -41,6 +41,8 @@ export default function UserListItem({ user }) {
     });
   }
 
+  const presenceClass = presence.toLowerCase();
+
   return (
     <div onClick={() => selectUser()} className={UserListItemStyles.container}>
       <div className={UserListItemStyles.image}>
@@ -52,7 +54,7 @@ export default function UserListItem({ user }) {
       </div>
       <div className={UserListItemStyles.details}>
         <p className={UserListItemStyles.username}>{username}</p>
-        <p className={UserListItemStyles.presence}>{presence}</p>
+        <p className={`${UserListItemStyles[presenceClass]}`}>{presence}</p>
       </div>
     </div>
   );

@@ -21,14 +21,29 @@
   line-height: 150%;
 }
 
-.presence {
+.offline,
+.online,
+.away {
   font-weight: 600;
   font-size: 1.2rem;
   line-height: 150%;
-  background-color: #c6f6d5;
-  color: #38a169;
   border-radius: 0.5rem;
   padding: 0.2rem 1rem;
   width: fit-content;
   margin-top: 0.4rem;
+}
+
+.online {
+  background-color: #c6f6d5;
+  color: #38a169;
+}
+
+.offline {
+  background-color: #fff5f5;
+  color: #f56565;
+}
+
+.away {
+  background-color: #feebc8;
+  color: #dd6b20;
 }

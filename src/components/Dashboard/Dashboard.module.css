@@ -10,6 +10,7 @@
 
 .header {
   display: flex;
+  align-items: center;
   width: 100%;
   justify-content: space-between;
   padding: 2.4em 2.8em;
@@ -17,9 +18,9 @@
 }
 
 .userimage > a > img {
-  height: 4em;
-  width: 4em;
-  border-radius: 50%;
+  height: 3.8em;
+  width: 3.8em;
+  border-radius: 0.8rem;
   display: block;
 }
 

@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import Loading from "../components/Loading/Loading";
-
 import { auth, chats, firebase } from "../firebase";
+
 import updatePresence from "../utils/updatePresence";
+
+import Loading from "../components/Loading/Loading";
 
 const AuthContext = createContext();
 

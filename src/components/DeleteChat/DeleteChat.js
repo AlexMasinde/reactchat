@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { captureException } from "@sentry/minimal";
 
 import { useAuth } from "../../contexts/AuthContext";
 import { useChat } from "../../contexts/ChatContext";
@@ -41,8 +42,8 @@ export default function DeleteChat() {
       setLoading(false);
       toggleModal();
     } catch (err) {
-      console.log(err);
-      setError("Could not Delete");
+      captureException(err);
+      setError("Could not delete chat");
     }
   }
 

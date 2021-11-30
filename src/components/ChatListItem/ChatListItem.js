@@ -15,8 +15,10 @@ export default function ChatListItem({ conversation }) {
   const { currentUser } = useAuth();
   const { allUsers, dispatch, selectedChat } = useChat();
   const { lastMessage, conversationWith } = conversation;
-  const user = allUsers.filter((user) => user.uid === conversationWith)[0];
   const { sentAt, message } = lastMessage;
+
+  const filterUsers = allUsers.filter((user) => user.uid === conversationWith);
+  const user = filterUsers[0] || null;
 
   const timeSent = findDifference(sentAt);
 

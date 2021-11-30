@@ -18,9 +18,9 @@ export default function ChatInput({ deletedUser }) {
     useChat();
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState("");
 
-  const deleted = deletedUser.uid === currentUser.uid;
+  const deleted = selectedUser.uid === deletedUser.uid;
 
   function handleMessage(e) {
     setMessage(e.target.value);
@@ -28,12 +28,10 @@ export default function ChatInput({ deletedUser }) {
 
   async function sendMessage() {
     if (loading || message.trim() === "") {
-      console.log("loading or empty");
       return;
     }
 
     if (deleted) {
-      console.log("deleted");
       return setError("You can't send messages to deleted users");
     }
 
@@ -75,7 +73,6 @@ export default function ChatInput({ deletedUser }) {
           .child(chatTitle)
           .get();
         const newConversation = { ...data.val(), uid: data.key };
-        console.log(newConversation);
         dispatch({
           type: "SET_SELECTED_CHAT",
           payload: newConversation,

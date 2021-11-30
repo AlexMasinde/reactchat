@@ -8,7 +8,26 @@
   justify-content: flex-start;
   align-items: center;
   padding: 2.4em 1.6em;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.close {
+  margin-right: 1.6rem;
+}
+
+.close > p {
+  font-size: 1.4rem;
+  color: #ffffff;
+  background-color: #f56565;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.8rem;
+  cursor: pointer;
 }
 
 .profilephoto > img {
@@ -76,34 +95,27 @@
   background-color: #ffffff;
 }
 
-.offline::before {
-  content: "";
-  display: inline-block;
-  width: 0.8em;
-  margin-right: 0.5em;
-  height: 0.8em;
-  background-color: #f56565;
-  border-radius: 50%;
-}
-
+.away::before,
+.offline::before,
 .online::before {
   content: "";
   display: inline-block;
   width: 0.8em;
   margin-right: 0.5em;
   height: 0.8em;
-  background-color: #68d391;
   border-radius: 50%;
 }
 
+.offline::before {
+  background-color: #f56565;
+}
+
+.online::before {
+  background-color: #68d391;
+}
+
 .away::before {
-  content: "";
-  display: inline-block;
-  width: 0.8em;
-  margin-right: 0.5em;
-  height: 0.8em;
-  background-color: #feebc8;
-  border-radius: 50%;
+  background-color: #dd6b20;
 }
 
 @media only screen and (max-width: 768px) {

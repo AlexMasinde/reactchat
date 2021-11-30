@@ -81,6 +81,8 @@ export function ChatContextProvider({ children }) {
       return;
     }
 
+    //fetch all users remove from current user
+
     const subscribe = chats.users.on("value", (dataSnapshot) => {
       const promises = [];
       let allUsers = [];
@@ -95,6 +97,7 @@ export function ChatContextProvider({ children }) {
           });
         })
         .finally(() => {
+          allUsers = allUsers.filter((user) => user.uid !== currentUser.uid);
           dispatch({
             type: "SET_USERS",
             payload: allUsers,

@@ -5,6 +5,7 @@ import { captureException } from "@sentry/react";
 import { useAuth } from "../../contexts/AuthContext";
 
 import { validateLogin } from "../../utils/validate";
+import googleProviderErrors from "../../utils/googleProviderErrors";
 
 import Input from "../Input/Input";
 import Button from "../Button/Button";
@@ -17,7 +18,7 @@ import WithGoogle from "../WithGoogle/WithGoogle";
 import googleSignin from "../../utils/googleSignin";
 
 export default function Login() {
-  const { userLogin, withGoogle } = useAuth();
+  const { userLogin, withGoogle, currentUser } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -84,9 +85,20 @@ export default function Login() {
       setLoading(false);
       history.push("/");
     } catch (err) {
-      console.log(err);
       setLoading(false);
+
+      const providerErrors = googleProviderErrors(
+        err,
+        errors,
+        captureException
+      );
+
+      setErrors(providerErrors);
     }
+  }
+
+  if (currentUser) {
+    history.push("/");
   }
 
   return (

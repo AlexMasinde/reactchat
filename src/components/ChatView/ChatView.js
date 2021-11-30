@@ -15,12 +15,13 @@ import Loading from "../Loading/Loading";
 
 export default function ChatView() {
   const { currentUser } = useAuth();
-  const { allUsers, selectedChat, messages } = useChat();
-  const otherUser = allUsers.filter(
-    (user) => user.uid === selectedChat.conversationWith
+  const { messages, selectedUser, selectedChat, conversations, dispatch } =
+    useChat();
+  const inConversation = conversations.find(
+    (conversation) => conversation.uid === selectedChat.uid
   );
 
-  const loading = messages.length === 0;
+  const loading = inConversation && messages.length === 0;
 
   const deletedUser = {
     uid: "deleted-user",
@@ -28,7 +29,7 @@ export default function ChatView() {
     photo: noUser,
   };
 
-  const chatUser = otherUser.length > 0 ? otherUser[0] : deletedUser;
+  const chatUser = selectedUser || deletedUser;
 
   useEffect(() => {
     const element = document.getElementById("chatdisplay");
@@ -40,7 +41,9 @@ export default function ChatView() {
     }
   });
 
-  const lastSeen = new Date(chatUser?.lastSeen).toLocaleString("en-Uk");
+  const lastSeen = selectedUser
+    ? new Date(chatUser?.lastSeen).toLocaleString("en-Uk")
+    : "Unknown";
 
   function status() {
     if (chatUser?.presence === "Online") {
@@ -62,6 +65,15 @@ export default function ChatView() {
     }
   }
 
+  function closeChat() {
+    if (selectedChat) {
+      dispatch({
+        type: "SET_SELECTED_CHAT",
+        payload: null,
+      });
+    }
+  }
+
   const statusText = text();
   const statusClass = status();
 
@@ -79,6 +91,9 @@ export default function ChatView() {
             <p className={ChatViewStyles.username}>{chatUser?.username}</p>
             <p className={statusClass}>{statusText}</p>
           </div>
+        </div>
+        <div onClick={closeChat} className={ChatViewStyles.close}>
+          <p>Close</p>
         </div>
       </div>
       {loading && (
