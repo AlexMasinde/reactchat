@@ -97,7 +97,7 @@ export default function Singup() {
         const profileUrl = await uploadTask.ref.getDownloadURL();
         const currentUser = auth.currentUser;
         await currentUser.updateProfile({
-          photoUrl: profileUrl,
+          photoURL: profileUrl,
           displayName: username,
         });
         await chats.users.child(currentUser.uid).set({

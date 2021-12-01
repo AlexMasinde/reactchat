@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { captureException } from "@sentry/minimal";
 
-import { auth, chats, firebase } from "../../firebase";
+import { auth, chats, firebase, realtimeDb } from "../../firebase";
 
 import { useAuth } from "../../contexts/AuthContext";
 
 import googleProviderErrors from "../../utils/googleProviderErrors";
+import updatePresence from "../../utils/updatePresence";
 
 import Input from "../Input/Input";
 import Button from "../Button/Button";
@@ -98,6 +99,7 @@ export default function UserProfile() {
             password: "User not found",
           });
         default:
+          captureException(err);
           return setErrors({
             ...errors,
             password: "Unknown Error! Try again",
@@ -109,6 +111,9 @@ export default function UserProfile() {
   async function handleLogout() {
     try {
       setLoading(true);
+      const presence = "Offline";
+      updatePresence(presence, currentUser);
+      await realtimeDb.goOffline();
       await auth.signOut();
       setLoading(false);
     } catch (err) {
@@ -117,7 +122,7 @@ export default function UserProfile() {
         ...errors,
         logout: "Unknown Error! Try again",
       });
-      console.log(err);
+      captureException(err);
     }
   }
 

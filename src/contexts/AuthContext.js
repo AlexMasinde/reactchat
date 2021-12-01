@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import { auth, chats, firebase } from "../firebase";
+import { auth, chats, firebase, realtimeDb } from "../firebase";
 
 import updatePresence from "../utils/updatePresence";
 
@@ -33,9 +33,7 @@ export function AuthProvider({ children }) {
     return auth.currentUser.delete();
   }
 
-  async function userSignout() {
-    const presence = "Offline";
-    await updatePresence(presence, currentUser);
+  function userSignout() {
     return auth.signOut();
   }
 
@@ -72,9 +70,9 @@ export function AuthProvider({ children }) {
       }
       if (document.visibilityState === "hidden") {
         const presence = "Away";
-        await updatePresence(presence, currentUser);
+        updatePresence(presence, currentUser);
       } else {
-        await chats.users.child(currentUser.uid).update({ presence: "Online" });
+        chats.users.child(currentUser.uid).update({ presence: "Online" });
       }
     };
   });
