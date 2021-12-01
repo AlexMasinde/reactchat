@@ -1,6 +1,5 @@
 .container {
   width: 60em;
-  /* border-right: 1px solid rgba(0, 0, 0, 0.1); */
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08);
 }
 
@@ -116,7 +115,7 @@
 }
 
 .away::before {
-  background-color: #dd6b20;
+  background-color: #feebc8;
 }
 
 @media only screen and (max-width: 600px) {
