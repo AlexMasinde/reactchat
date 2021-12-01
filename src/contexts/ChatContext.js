@@ -1,4 +1,10 @@
-import { createContext, useContext, useReducer, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  useState,
+} from "react";
 import { chats } from "../firebase";
 import { useAuth } from "./AuthContext";
 
@@ -45,6 +51,7 @@ const initialState = {
 
 export function ChatContextProvider({ children }) {
   const [state, dispatch] = useReducer(chatReducer, initialState);
+  const [loadingConversations, setLoadingConversations] = useState(true);
   const { selectedChat } = state;
   const { currentUser } = useAuth();
 
@@ -135,6 +142,7 @@ export function ChatContextProvider({ children }) {
               type: "SET_CONVERSATIONS",
               payload: allConversations,
             });
+            setLoadingConversations(false);
           });
       });
 
@@ -147,6 +155,7 @@ export function ChatContextProvider({ children }) {
 
   const value = {
     ...state,
+    loadingConversations,
     dispatch,
   };
 

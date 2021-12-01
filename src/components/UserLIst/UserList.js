@@ -42,7 +42,7 @@ export default function UserList() {
     <div className={UserListStyles.container}>
       {console.log(users)}
       <div className={UserListStyles.header}>
-        <p>New Message</p>
+        <p>Select User</p>
         <p onClick={() => toggleUserList()}>Close</p>
       </div>
       <div className={UserListStyles.searchbar}>

@@ -1,11 +1,12 @@
 .content {
   display: flex;
+  width: fit-content;
+  margin: 0 auto;
+  background-color: #ffffff;
 }
 
 .chatlist {
   min-width: 35em;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
-  border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .header {
@@ -61,12 +62,35 @@
   min-height: calc(100vh - 89px);
 }
 
-@media only screen and (max-width: 768px) {
+.nochat {
+  display: flex;
+  min-width: 60em;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08);
+}
+
+.nochat > p {
+  font-size: 1.6rem;
+  color: #615ef0;
+}
+
+@media only screen and (max-width: 600px) {
   .chatlist {
-    width: 100%;
+    width: 100vw;
     border: none;
   }
-  .content {
-    display: block;
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  .nochat {
+    width: 40em;
+    min-width: 0;
+  }
+
+  .nochat > p {
+    padding: 1em;
+    text-align: center;
   }
 }

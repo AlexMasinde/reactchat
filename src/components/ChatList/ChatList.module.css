@@ -3,6 +3,25 @@
   overflow-y: auto;
 }
 
+.nochats {
+  font-size: 1.6rem;
+  max-width: 30rem;
+  margin: 0 auto;
+}
+
+.nochats > p > img {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.loading,
+.nochats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50rem;
+}
+
 @media only screen and (max-width: 768px) {
   .container {
     max-height: none;

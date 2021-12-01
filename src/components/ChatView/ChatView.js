@@ -11,17 +11,15 @@ import placeholder from "../../icons/avatar.png";
 import noUser from "../../icons/nouser.svg";
 
 import ChatViewStyles from "./ChatView.module.css";
-import Loading from "../Loading/Loading";
 
 export default function ChatView() {
   const { currentUser } = useAuth();
-  const { messages, selectedUser, selectedChat, conversations, dispatch } =
+  const { messages, selectedUser, selectedChat, dispatch, allUsers } =
     useChat();
-  const inConversation = conversations.find(
-    (conversation) => conversation.uid === selectedChat.uid
-  );
 
-  const loading = inConversation && messages.length === 0;
+  const getUser = allUsers.filter(
+    (user) => user.uid === selectedChat.conversationWith
+  )[0];
 
   const deletedUser = {
     uid: "deleted-user",
@@ -29,7 +27,7 @@ export default function ChatView() {
     photo: noUser,
   };
 
-  const chatUser = selectedUser || deletedUser;
+  const chatUser = getUser || deletedUser;
 
   useEffect(() => {
     const element = document.getElementById("chatdisplay");
@@ -96,29 +94,22 @@ export default function ChatView() {
           <p>Close</p>
         </div>
       </div>
-      {loading && (
-        <div className={ChatViewStyles.loading}>
-          <Loading />
+      <div id="chatdisplay" className={ChatViewStyles.chatdisplay}>
+        {messages.map((message) => {
+          return (
+            <Message
+              key={shortid()}
+              message={message}
+              chatUser={chatUser}
+              allMessages={messages}
+              currentUser={currentUser}
+            />
+          );
+        })}
+        <div className={ChatViewStyles.chatinput}>
+          <ChatInput deletedUser={deletedUser} />
         </div>
-      )}
-      {!loading && (
-        <div id="chatdisplay" className={ChatViewStyles.chatdisplay}>
-          {messages.map((message) => {
-            return (
-              <Message
-                key={shortid()}
-                message={message}
-                chatUser={chatUser}
-                allMessages={messages}
-                currentUser={currentUser}
-              />
-            );
-          })}
-          <div className={ChatViewStyles.chatinput}>
-            <ChatInput deletedUser={deletedUser} />
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }
