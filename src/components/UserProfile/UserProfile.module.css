@@ -1,7 +1,11 @@
 .container {
-  width: 35em;
-  margin: 20em auto 0;
+  width: 32.4em;
+  height: 100vh;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
   text-align: center;
+  justify-content: center;
 }
 
 .photo {

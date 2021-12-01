@@ -11,6 +11,7 @@ import placeholder from "../../icons/avatar.png";
 import noUser from "../../icons/nouser.svg";
 
 import ChatViewStyles from "./ChatView.module.css";
+import getLastSeen from "../../utils/getLastSeen";
 
 export default function ChatView() {
   const { currentUser } = useAuth();
@@ -39,9 +40,7 @@ export default function ChatView() {
     }
   });
 
-  const lastSeen = selectedUser
-    ? new Date(chatUser?.lastSeen).toLocaleString("en-Uk")
-    : "Unknown";
+  const lastSeen = selectedUser ? getLastSeen(chatUser?.lastSeen) : "Unknown";
 
   function status() {
     if (chatUser?.presence === "Online") {

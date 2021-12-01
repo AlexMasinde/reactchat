@@ -5,7 +5,6 @@ export default function useMediaQuery(query) {
   const [matches, setMatches] = useState(media.matches);
 
   useEffect(() => {
-    console.log("effect ran");
     const changeListener = (e) => {
       if (e.matches !== matches) {
         setMatches(e.matches);
