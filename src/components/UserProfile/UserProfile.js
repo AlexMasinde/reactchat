@@ -16,10 +16,11 @@ import placeholder from "../../icons/avatar.png";
 import logo from "../../icons/logo.svg";
 
 import UserProfileStyles from "./UserProfile.module.css";
+import updatePresence from "../../utils/updatePresence";
 
 export default function UserProfile() {
-  const [loading, setLoading] = useState(false);
   const { currentUser } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -98,6 +99,7 @@ export default function UserProfile() {
             password: "User not found",
           });
         default:
+          captureException(err);
           return setErrors({
             ...errors,
             password: "Unknown Error! Try again",
@@ -109,15 +111,18 @@ export default function UserProfile() {
   async function handleLogout() {
     try {
       setLoading(true);
+      const presence = "Offline";
+      updatePresence(presence, currentUser);
       await auth.signOut();
       setLoading(false);
+      window.location.reload();
     } catch (err) {
       setLoading(false);
       setErrors({
         ...errors,
         logout: "Unknown Error! Try again",
       });
-      console.log(err);
+      captureException(err);
     }
   }
 

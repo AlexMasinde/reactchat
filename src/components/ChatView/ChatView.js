@@ -26,6 +26,7 @@ export default function ChatView() {
     uid: "deleted-user",
     username: "Deleted User",
     photo: noUser,
+    presence: "Offline",
   };
 
   const chatUser = getUser || deletedUser;

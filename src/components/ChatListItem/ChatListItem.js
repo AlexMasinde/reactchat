@@ -8,6 +8,7 @@ import markAsRead from "../../utils/markAsRead";
 import { findDifference } from "../../utils/findDifference";
 
 import placeholder from "../../icons/avatar.png";
+import noUser from "../../icons/nouser.svg";
 
 import ChatListItemStyles from "./ChatListItem.module.css";
 
@@ -17,8 +18,19 @@ export default function ChatListItem({ conversation }) {
   const { lastMessage, conversationWith } = conversation;
   const { sentAt, message } = lastMessage;
 
+  const messageToDisplay =
+    message.length > 20 ? message.slice(0, 25) + "..." : message;
+
   const filterUsers = allUsers.filter((user) => user.uid === conversationWith);
-  const user = filterUsers[0] || null;
+
+  const deletedUser = {
+    uid: "deleted-user",
+    username: "Deleted User",
+    photo: noUser,
+    presence: "Offline",
+  };
+
+  const user = filterUsers[0] || deletedUser;
 
   const timeSent = findDifference(sentAt);
 
@@ -76,7 +88,7 @@ export default function ChatListItem({ conversation }) {
           <div className={ChatListItemStyles.user}>
             <p className={usernameClass}>{user?.username}</p>
           </div>
-          <p className={messageClasses}>{message}</p>
+          <p className={messageClasses}>{messageToDisplay}</p>
         </div>
       </div>
       <div className={ChatListItemStyles.timeleft}>

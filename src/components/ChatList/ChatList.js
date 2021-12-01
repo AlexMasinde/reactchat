@@ -16,6 +16,8 @@ export default function ChatList() {
   const { conversations, showUserList, loadingConversations } = useChat();
   const isMobile = useMediaQuery("(max-width: 600px)");
 
+  const displayList = [...conversations].reverse();
+
   const chatsAvailable = conversations.length > 0;
   const renderNewChatMessage =
     !loadingConversations && !showUserList && !chatsAvailable && isMobile;
@@ -23,7 +25,7 @@ export default function ChatList() {
   return (
     <div className={ChatListStyles.container}>
       {!loadingConversations &&
-        conversations.map((conversation) => {
+        displayList.map((conversation) => {
           return <ChatListItem key={shortid()} conversation={conversation} />;
         })}
       {loadingConversations && (

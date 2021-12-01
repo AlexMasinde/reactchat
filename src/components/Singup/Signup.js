@@ -3,7 +3,7 @@ import { captureException } from "@sentry/react";
 import { Link, useHistory } from "react-router-dom";
 
 import { useAuth } from "../../contexts/AuthContext";
-import { auth, storage, chats } from "../../firebase";
+import { auth, storage, chats, realtimeDb } from "../../firebase";
 
 import { validateSingup } from "../../utils/validate";
 import googleProviderErrors from "../../utils/googleProviderErrors";
@@ -88,6 +88,7 @@ export default function Singup() {
     try {
       setErrors({});
       setLoading(true);
+      await realtimeDb.goOnline();
       await userSignup(email, password);
 
       if (file) {
@@ -97,14 +98,14 @@ export default function Singup() {
         const profileUrl = await uploadTask.ref.getDownloadURL();
         const currentUser = auth.currentUser;
         await currentUser.updateProfile({
-          photoUrl: profileUrl,
+          photoURL: profileUrl,
           displayName: username,
         });
         await chats.users.child(currentUser.uid).set({
           username: username,
           photo: profileUrl,
           email: email,
-          presence: "online",
+          presence: "Online",
         });
       } else {
         await auth.currentUser.updateProfile({ displayName: username });
@@ -112,7 +113,7 @@ export default function Singup() {
         await chats.users.child(currentUser.uid).set({
           username: username,
           email: email,
-          presence: "online",
+          presence: "Online",
         });
       }
 
@@ -140,6 +141,7 @@ export default function Singup() {
     }
     try {
       setLoading(true);
+      await realtimeDb.goOnline();
       await googleSignin(withGoogle);
       setLoading(false);
       history.push("/");
