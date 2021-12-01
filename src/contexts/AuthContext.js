@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import { auth, chats, firebase, realtimeDb } from "../firebase";
+import { auth, chats, firebase } from "../firebase";
 
 import updatePresence from "../utils/updatePresence";
 
