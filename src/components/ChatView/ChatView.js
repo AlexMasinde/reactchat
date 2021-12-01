@@ -59,7 +59,7 @@ export default function ChatView() {
     } else if (chatUser?.presence === "Away") {
       return "Away";
     } else {
-      return `Last Seen: ${lastSeen}`;
+      return `Last Seen: ${lastSeen ?? "Unknown"}`;
     }
   }
 
