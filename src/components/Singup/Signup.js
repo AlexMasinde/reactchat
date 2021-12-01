@@ -93,8 +93,11 @@ export default function Singup() {
 
       if (file) {
         const filePath = `profileImages/${email}/${file.name}`;
+        const newMetadata = {
+          cacheControl: "public,max-age=4000",
+        };
         const fileRef = storage.ref(filePath);
-        const uploadTask = await fileRef.put(file);
+        const uploadTask = await fileRef.put(file, newMetadata);
         const profileUrl = await uploadTask.ref.getDownloadURL();
         const currentUser = auth.currentUser;
         await currentUser.updateProfile({
