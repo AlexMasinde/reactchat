@@ -14,6 +14,17 @@ export function useChat() {
   return useContext(ChatContext);
 }
 
+const initialState = {
+  allUsers: [],
+  chatList: [],
+  conversations: [],
+  selectedChat: null,
+  selectedUser: {},
+  messages: [],
+  showUserList: false,
+  deleteChat: false,
+};
+
 function chatReducer(state, action) {
   switch (action.type) {
     case "SET_CHATS":
@@ -37,17 +48,6 @@ function chatReducer(state, action) {
     }
   }
 }
-
-const initialState = {
-  allUsers: [],
-  chatList: [],
-  conversations: [],
-  selectedChat: null,
-  selectedUser: {},
-  messages: [],
-  showUserList: false,
-  deleteChat: false,
-};
 
 export function ChatContextProvider({ children }) {
   const [state, dispatch] = useReducer(chatReducer, initialState);
@@ -124,6 +124,7 @@ export function ChatContextProvider({ children }) {
     const subscribe = chats.users
       .child(currentUser.uid)
       .child("conversations")
+      .orderByChild("lastMessage/sentAt")
       .on("value", (dataSnapshot) => {
         const promises = [];
         let allConversations = [];

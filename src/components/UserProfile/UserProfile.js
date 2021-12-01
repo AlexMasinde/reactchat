@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { captureException } from "@sentry/minimal";
 
-import { auth, chats, firebase, realtimeDb } from "../../firebase";
+import { auth, chats, firebase } from "../../firebase";
 
 import { useAuth } from "../../contexts/AuthContext";
 
 import googleProviderErrors from "../../utils/googleProviderErrors";
-import updatePresence from "../../utils/updatePresence";
 
 import Input from "../Input/Input";
 import Button from "../Button/Button";
@@ -17,10 +16,11 @@ import placeholder from "../../icons/avatar.png";
 import logo from "../../icons/logo.svg";
 
 import UserProfileStyles from "./UserProfile.module.css";
+import updatePresence from "../../utils/updatePresence";
 
 export default function UserProfile() {
-  const [loading, setLoading] = useState(false);
   const { currentUser } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -113,9 +113,9 @@ export default function UserProfile() {
       setLoading(true);
       const presence = "Offline";
       updatePresence(presence, currentUser);
-      await realtimeDb.goOffline();
       await auth.signOut();
       setLoading(false);
+      window.location.reload();
     } catch (err) {
       setLoading(false);
       setErrors({

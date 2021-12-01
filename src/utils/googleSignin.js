@@ -9,7 +9,7 @@ export default async function googleSignin(withGoogle) {
       username: currentUser.displayName,
       photo: currentUser.photoURL,
       email: currentUser.email,
-      presence: "online",
+      presence: "Online",
     });
   }
 }
