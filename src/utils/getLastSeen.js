@@ -7,7 +7,6 @@ export default function getLastSeen(rawDate) {
   let lastSeen;
 
   if (days < 1) {
-    console.log(days);
     const time = transformedDate.toLocaleTimeString("en-Uk", timeOptions);
     lastSeen = `Today at ${time}`;
   }
