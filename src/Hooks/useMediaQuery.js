@@ -5,14 +5,16 @@ export default function useMediaQuery(query) {
   const [matches, setMatches] = useState(media.matches);
 
   useEffect(() => {
+    console.log("effect ran");
     const changeListener = (e) => {
       if (e.matches !== matches) {
         setMatches(e.matches);
       }
     };
+
     media.addEventListener("change", changeListener);
     return () => media.removeEventListener("change", changeListener);
-  }, [matches, query]);
+  }, [media, matches, query]);
 
   return matches;
 }

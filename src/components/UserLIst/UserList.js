@@ -40,7 +40,6 @@ export default function UserList() {
 
   return (
     <div className={UserListStyles.container}>
-      {console.log(users)}
       <div className={UserListStyles.header}>
         <p>Select User</p>
         <p onClick={() => toggleUserList()}>Close</p>
