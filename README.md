@@ -23,12 +23,12 @@ Password: test123
 # Tech Stack 
 1. React for the frontend 
 2. Firebase Realtime Database for the backend 
-3. ContextAPI for state management 
+3. Context API for state management 
 4. CSS modules for styling
 5. Cloud Storage for Firebase
 6. Vercel for hosting
 
-I decided to use ContextAPI because the application does not require complex state handling and does not have caching functionality. In terms of the backend, I considered using Node.js and Socket.IO, but my deeper familiarity with firebase meant that I could get the project up and running quicker. Besides, the Realtime Database offered plenty of features off the box; hence, there was no need to go with a custom solution. 
+I decided to use Context API because the application does not require complex state handling and does not have caching functionality. In terms of the backend, I considered using Node.js and Socket.IO, but my deeper familiarity with firebase meant that I could get the project up and running quicker. Besides, the Realtime Database offered plenty of features off the box; hence, there was no need to go with a custom solution. 
 
 Finally, I opted to use React because I its component driven architecture significantly improves the process building and maintaining web applications. Using react with CSS modules allowed me to develop parts of the application quickly and in isolation.
 
