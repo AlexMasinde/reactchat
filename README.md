@@ -14,11 +14,11 @@ My goal for building this application was to gain a deeper understanding real ti
 
 * The following are sample accounts that can be used to access the application
 
-Email: smith@reactfirebase.com
-Password: 123456
+**Email:** smith@reactfirebase.com
+**Password:** 123456
 
-Email: sam@reactfirebase.com
-Password: test123
+**Email:** sam@reactfirebase.com
+**Password:** test123
 
 # Tech Stack 
 1. React for the frontend 
