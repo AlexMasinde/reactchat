@@ -12,12 +12,9 @@ My goal for building this application was to gain a deeper understanding real ti
 * For the design, I used this design from figma. [Application Design](https://www.figma.com/file/O9RYx9soVwm4hPJboKqso9/Qwerty---Chat-Application-(Community))
 
 
-* The following are sample accounts that can be used to access the application
+* The following is a sample account that can used to access the application
 
 **Email:** smith@reactfirebase.com
-**Password:** 123456
-
-**Email:** sam@reactfirebase.com
 **Password:** test123
 
 # Tech Stack 
