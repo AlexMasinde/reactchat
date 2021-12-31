@@ -1,7 +1,7 @@
 # React Firebase Chat Application
 
 
-![Chat application built using react and firebase](https://user-images.githubusercontent.com/56753745/147803627-2f83178b-4c59-416f-b402-b7bf9de13563.png)
+![Chat application built using react and firebase](https://user-images.githubusercontent.com/56753745/147826029-8912c827-ef0b-468b-a1c4-2840f9cf3dd4.png)
 
 
 My goal for building this application was to gain a deeper understanding real time data handling and mimic a team-based workflow. The complete project can be found here [React Chat Application](https://reactfirebasechat.vercel.app/)
