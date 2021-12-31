@@ -9,7 +9,7 @@ My goal for building this application was to gain a deeper understanding real ti
 * I recorded tasks and each feature for the application in this google doc. [Tasks and Requirement Specification](https://docs.google.com/document/d/1fBldFKOj1dvne7TzPW9SU3p9w67cT5Wc-AEfDCSsjvw/edit). 
 
 
-* For the design, I used this design from figma. [Application Design](https://docs.google.com/document/d/1fBldFKOj1dvne7TzPW9SU3p9w67cT5Wc-AEfDCSsjvw/edit)
+* For the design, I used this design from figma. [Application Design](https://www.figma.com/file/O9RYx9soVwm4hPJboKqso9/Qwerty---Chat-Application-(Community))
 
 
 * The following are sample accounts that can be used to access the application
